@@ -1,5 +1,6 @@
 package Graph;
-
+//시간복잡도 해결 x, 백트래킹은 시간복잡도 터짐
+// 양방향 도로, 출발 정점 x 에서 적어도 3개의 정점을 반드시 거친 후 도착 정점 z에 도달하는 최단 거리
 import java.io.*;
 import java.util.*;
 
