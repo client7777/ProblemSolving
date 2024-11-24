@@ -1,62 +1,63 @@
 package Recursion;
+
 import java.io.*;
 import java.util.StringTokenizer;
-// 쿼드트리
+
 public class boj_2630
 {
-    static int[][] arr;
-    static int n;
-    static int count_white = 0;
-    static int count_blue = 0;
+    static int[][] map;
     static StringBuilder sb = new StringBuilder();
+    static int white = 0, blue = 0;
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        arr = new int[n][n];
-        for(int i = 0; i < n; i++)
+        int n = Integer.parseInt(st.nextToken());
+
+        map = new int[n][n];
+
+        for(int i=0; i<n; i++)
         {
-            st = new StringTokenizer(br.readLine(), " ");
-            for(int j = 0; j < n; j++)
+            st = new StringTokenizer(br.readLine());
+            for(int j=0; j<n; j++)
             {
-                arr[i][j] = Integer.parseInt(st.nextToken());
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        recur(0,0,n);
-        sb.append(count_white).append("\n").append(count_blue).append("\n");
-        System.out.print(sb.toString());
+
+        quad(0,0,n);
+        sb.append(white).append('\n');
+        sb.append(blue);
+        System.out.print(sb);
     }
-    static void recur(int x, int y, int size)
+    static void quad(int x,int y, int size)
     {
-        if(colorCheck(x,y,size))
+        if(check(x,y,size))
         {
-            if(arr[x][y] == 0 )
+            if(map[x][y] == 0)
             {
-                count_white++;
+                white++;
             }
             else
-            {
-                count_blue++;
-            }
+                blue++;
             return;
         }
-        int newSize = size/2;
-        recur(x,y,newSize); // 2사분면
-        recur(x,y+newSize,newSize); // 1사분면
-        recur(x+newSize,y,newSize); // 3사분면
-        recur(x+newSize,y+newSize,newSize); // 4사분면
-    }
-    static boolean colorCheck(int x, int y, int size)
-    {
-        int color = arr[x][y];
 
-        for(int i=x; i<x + size; i++)
+        int half = size/2;
+
+        quad(x,y,half);
+        quad(x+half,y,half);
+        quad(x,y+half,half);
+        quad(x+half,y+half,half);
+    }
+    static boolean check(int x,int y,int size)
+    {
+        int color = map[x][y];
+        for(int i=x; i<x+size; i++)
         {
-            for(int j=y; j<y + size; j++)
+            for(int j=y; j<y+size; j++)
             {
-                if(arr[i][j] != color)
-                    return false;
+                if(map[i][j] != color) return false;
             }
         }
         return true;

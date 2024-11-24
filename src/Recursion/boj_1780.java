@@ -5,73 +5,76 @@ import java.util.StringTokenizer;
 
 public class boj_1780
 {
-    static int n;
-    static int[][] arr;
-    static int minus = 0; // -1로 이루어진 영역
-    static int zero = 0; // 0으로 이루어진 영역
-    static int one = 0; // 1로 이루어진 영역
-    static StringBuilder sb = new StringBuilder();
+    static int[][] map;
+    static int minus = 0, zero = 0, one = 0;
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        arr = new int[n][n];
-        for(int i = 0; i < n; i++)
+
+        int n = Integer.parseInt(st.nextToken());
+
+        map = new int[n][n];
+
+        for(int i=0; i<n; i++)
         {
             st = new StringTokenizer(br.readLine());
-            for(int j = 0; j < n; j++)
+            for(int j=0; j<n; j++)
             {
-                arr[i][j] = Integer.parseInt(st.nextToken());
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        recur(0,0,n);
-        sb.append(minus).append("\n").append(zero).append("\n").append(one).append("\n");
-        System.out.print(sb.toString());
+
+        StringBuilder sb = new StringBuilder();
+        divide(0,0,n);
+        sb.append(minus + "\n");
+        sb.append(zero + "\n");
+        sb.append(one + "\n");
+
+        System.out.print(sb);
+
     }
-    static void recur(int x,int y,int size)
+    static void divide(int x,int y, int size)
     {
-        if(check(x, y, size))
+        if(check(x,y,size))
         {
-            if(arr[x][y] == -1)
+            if(map[x][y] == -1)
             {
                 minus++;
             }
-            else if(arr[x][y] == 0)
+            if(map[x][y] == 0)
             {
                 zero++;
             }
-            else if(arr[x][y] == 1)
+            if(map[x][y] == 1)
             {
                 one++;
             }
             return;
         }
-        //사각형을 총 9개의 영역으로 나눔
-        int newSize = size/3;
-        recur(x,y,newSize);
-        recur(x,y+ newSize,newSize);
-        recur(x,y+ 2*newSize,newSize);
+        int newSize = size/3; // 사각형을 9등분 하기 위해서 size를 3으로 나눔
 
-        recur(x+ newSize,y,newSize);
-        recur(x+ newSize,y+ newSize,newSize);
-        recur(x+ newSize,y+ 2*newSize,newSize);
+        divide(x,y,newSize);
+        divide(x,y+newSize,newSize);
+        divide(x,y + 2*newSize,newSize);
 
-        recur(x+ 2*newSize,y,newSize);
-        recur(x+ 2*newSize,y+ newSize,newSize);
-        recur(x+ 2*newSize,y+ 2*newSize,newSize);
+        divide(x+newSize,y,newSize);
+        divide(x+newSize,y+newSize,newSize);
+        divide(x+newSize,y+2*newSize,newSize);
+
+        divide(x+2*newSize,y,newSize);
+        divide(x+2*newSize,y+newSize,newSize);
+        divide(x+2*newSize,y+2*newSize,newSize);
+
     }
-    static boolean check(int x,int y, int size)
+    static boolean check(int x,int y,int size)
     {
-        int val = arr[x][y];
+        int color = map[x][y];
         for(int i=x; i<x+size; i++)
         {
             for(int j=y; j<y+size; j++)
             {
-                if(val != arr[i][j])
-                {
-                    return false;
-                }
+                if(map[i][j] != color) return false;
             }
         }
         return true;

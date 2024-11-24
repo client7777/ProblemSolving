@@ -1,13 +1,7 @@
 package Recursion;
-
-//함수의 정의
-//원판 n개를 a번 기둥에서 b번 기둥으로 옮기는 방법을 출력하는 함수
-//base condition
-//n == 1일 때 a,b를 빈칸을 두고 출력
-//재귀 식
-//n-1개의 원판을 기둥 a에서 기둥 6-a-b로 옮긴다.
-//n번 원판을 기둥 a에서 b로 옮긴다.
-//n-1개의 원판을 기둥 6-a-b에서 기둥 b로 옮긴다.
+// n개의 원판을 출발지에서 목적지로 옮기려면 n-1개의 원판을 출발지에서 보조기둥으로 옮김
+// 가장 큰 원판을 출발지에서 목적지로 옮김
+// 보조기둥에 있는 n-1개의 원판을 목적지로 옮김
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,25 +13,47 @@ public class boj_11729
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        sb.append((1<<n) - 1).append('\n');
-        Hanoi(n,1,2,3);
-        System.out.print(sb.toString());
+
+        sb.append((1<<n)-1).append('\n');
+        hanoi(1,3,n);
+        System.out.print(sb);
     }
-    //n: 원판의 개수 start:출발지 mid:옮기기 위해 이동해야 할 장소 to:목적지
-    public static void Hanoi(int n, int start, int mid, int to)
+
+    /*
+        n = 옮길 원판의 개수
+        start = 현재 원판이 위치한 출발지
+        mid = 옮기기 위해 이동해야 할 장소, 보조 기둥
+        to = 목적지
+    */
+    
+    static void hanoi(int a, int b, int n)
     {
-        if(n == 1) // 이동할 원반의 개수가 하나라면
+        if(n == 1)
         {
-            sb.append(start + " " + to + "\n");
+            sb.append(a + " " + b).append('\n');
             return;
         }
-        // A - C로 옮긴다고 가정할 때,
-        // step 1: n-1개를 1에서 2로 이동
-        // start지점의 n-1개의 원판을 mid 지점으로 옮긴다.
-        Hanoi(n-1, start,to,mid);
-        // step 2: n-1개의 원판을 옮기고 남은 n번째 원판 1개를 1에서 3으로 이동(n번째 원판을 to 지점으로 이동)
-        sb.append(start + " " + to + "\n");
 
-        Hanoi(n-1,mid,start,to);
+        hanoi(a,6-a-b,n-1); // 6-a-b -> 보조기둥의 번호를 정하기 위함
+        sb.append(a + " " + b).append('\n');
+        hanoi(6-a-b, b, n-1);
     }
 }
+/*
+static void hanoi(int n, int start, int mid, int to)
+    {
+        if(n==1)
+        {
+            sb.append(start + " " + to).append('\n');
+            return;
+        }
+
+        //n-1개의 원판을 a에서 b로 이동
+        hanoi(n-1, start, to, mid);
+
+        //start 지점의 n번째 원판을 목적지로 옮긴다.
+        sb.append(start + " " + to).append('\n');
+
+        //원판 n-1개를 mid에서 to로 이동
+        hanoi(n-1,mid, start, to);
+    }*/
