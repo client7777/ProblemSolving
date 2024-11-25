@@ -21,8 +21,8 @@ public class boj_15655
             st = new StringTokenizer(br.readLine());
             for(int i=0; i<n; i++)
             {
-                    //n개의 숫자를 입력받아 배열에 저장
-                    arr1[i] = Integer.parseInt(st.nextToken());
+                //n개의 숫자를 입력받아 배열에 저장
+                arr1[i] = Integer.parseInt(st.nextToken());
             }
         Arrays.sort(arr1); // 배열을 오름차순으로 정렬
         dfs(0,0);

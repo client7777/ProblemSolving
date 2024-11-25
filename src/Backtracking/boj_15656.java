@@ -43,7 +43,6 @@ public class boj_15656
             for(int i=0; i<n; i++)
             {
                 arr2[depth] = arr1[i];
-
                 dfs(depth+1);
             }
     }
