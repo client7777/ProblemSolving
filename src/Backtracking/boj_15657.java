@@ -6,15 +6,13 @@ import java.util.StringTokenizer;
 
 public class boj_15657
 {
-    static int[] arr1;
-    static int[] arr2;
-    static int n,m;
     static StringBuilder sb = new StringBuilder();
+    static int n,m;
+    static int[] arr1, arr2;
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
@@ -22,15 +20,17 @@ public class boj_15657
         arr2 = new int[m];
 
         st = new StringTokenizer(br.readLine());
-        for(int i=0;i<n;i++)
+        for(int i=0; i<n; i++)
         {
             arr1[i] = Integer.parseInt(st.nextToken());
         }
+
         Arrays.sort(arr1);
-        dfs(0,0);
-        System.out.print(sb.toString());
+
+        backTrack(0,0);
+        System.out.print(sb);
     }
-    static void dfs(int at, int depth)
+    static void backTrack(int at, int depth)
     {
         if(depth == m)
         {
@@ -38,13 +38,13 @@ public class boj_15657
             {
                 sb.append(val + " ");
             }
-            sb.append("\n");
+            sb.append('\n');
             return;
         }
-        for(int i=at;i<n;i++)
+        for(int i=at; i<n; i++)
         {
             arr2[depth] = arr1[i];
-            dfs(i,depth+1);
+            backTrack(i, depth+1);
         }
     }
 }

@@ -9,7 +9,7 @@ public class boj_15665
     static int n,m;
     static int[] arr1;
     static int[] arr2;
-    static boolean visit[];
+    static boolean[] visit;
     static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException
     {
@@ -43,7 +43,6 @@ public class boj_15665
             sb.append('\n');
             return;
         }
-
         int tmp = -1;
         for(int i=0; i<n; i++)
         {
@@ -54,8 +53,6 @@ public class boj_15665
                 arr2[depth] = arr1[i];
                 dfs(depth+1);
             }
-
         }
-
     }
 }

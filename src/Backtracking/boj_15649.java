@@ -1,5 +1,5 @@
 package Backtracking;
-
+//1~n까지 자연수 중에서 중복없이 m개를 고른 수열
 import java.io.*;
 import java.util.*;
 
@@ -11,14 +11,14 @@ public class boj_15649
     static StringBuilder sb = new StringBuilder();
     public static void main(String[] args)throws IOException
     {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            n = Integer.parseInt(st.nextToken());
-            m = Integer.parseInt(st.nextToken());
-            arr = new int[m]; // 길이가 m인 배열
-            visit = new boolean[n+1]; //특정 수가 사용되었는지 여부를 나타내는 배열
-            dfs(0);
-            System.out.println(sb);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        arr = new int[m]; // 길이가 m인 배열
+        visit = new boolean[n+1]; //특정 수가 사용되었는지 여부를 나타내는 배열
+        dfs(0);
+        System.out.println(sb);
     }
     public static void dfs(int depth)
     {

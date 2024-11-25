@@ -9,7 +9,7 @@ public class boj_15664
     static int n,m;
     static int[] arr1;
     static int[] arr2;
-    static boolean visit[];
+    static boolean[] visit;
     static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException
     {
@@ -21,7 +21,7 @@ public class boj_15664
 
         arr1 = new int[n];
         arr2 = new int[m];
-        visit = new boolean[n+1];
+        visit = new boolean[n];
 
         st = new StringTokenizer(br.readLine());
         for(int i=0; i<n; i++)
@@ -29,16 +29,16 @@ public class boj_15664
             arr1[i] = Integer.parseInt(st.nextToken());
         }
         Arrays.sort(arr1);
-        dfs(0,0);
+        backTrack(0,0);
         System.out.print(sb.toString());
     }
-    static void dfs(int at, int depth)
+    static void backTrack(int at, int depth)
     {
         if(depth == m)
         {
             for(int val:arr2)
             {
-                sb.append(val).append(' ');
+                sb.append(val + " ");
             }
             sb.append('\n');
             return;
@@ -47,14 +47,12 @@ public class boj_15664
         int tmp = -1;
         for(int i=at; i<n; i++)
         {
-            if(!visit[i] && arr1[i] != tmp)
-            {
-                visit[i] = true;
-                arr2[depth] = arr1[i];
-                tmp = arr2[depth];
-                dfs(i, depth+1);
-                visit[i] = false;
-            }
+            if(visit[i] || arr1[i] == tmp) continue;
+            visit[i] = true;
+            arr2[depth] = arr1[i];
+            tmp = arr2[depth];
+            backTrack(i, depth+1);
+            visit[i] = false;
         }
     }
 }

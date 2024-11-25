@@ -3,47 +3,50 @@ package Backtracking;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class boj_15650
 {
     static int n,m;
-    static int[] arr;
-    static boolean[] isUsed;
+    static ArrayList<Integer> ans = new ArrayList<>();
+    static boolean[] is_used;
     static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException
     {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            n = Integer.parseInt(st.nextToken());
-            m = Integer.parseInt(st.nextToken());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-            arr = new int[m]; // 수열을 담을 배열
-            isUsed = new boolean[n+1]; // 1부터 n까지 숫자의 사용 여부를 체크
-            func(0);
-            System.out.print(sb.toString());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        is_used = new boolean[n+1];
+
+        backTracK(1,0);
+
+        System.out.print(sb);
+
     }
-
-    static void func(int depth)
+    static void backTracK(int at, int depth)
     {
         if(depth == m)
         {
-            for(int val:arr)
+            for(int val:ans)
             {
-                sb.append(val).append(' ');
+                sb.append(val + " ");
             }
             sb.append('\n');
             return;
         }
-        for(int i=1; i<=n; i++)
+        for(int i=at; i<=n; i++)
         {
-            // 현재 선택할 숫자가 이전에 선택된 숫자보다 크거나 같아야 함.
-            if(!isUsed[i] && (depth == 0 || i > arr[depth - 1]))
+            if(!is_used[i])
             {
-                isUsed[i] = true;
-                arr[depth] = i;
-                func(depth+1);
-                isUsed[i] = false;
+                ans.add(i);
+                is_used[i] = true;
+                backTracK(i+1,depth+1);
+                ans.remove(ans.size()-1);
+                is_used[i] = false;
             }
         }
     }
@@ -64,3 +67,18 @@ public class boj_15650
             dfs(i + 1, depth + 1);
         }
     }*/
+
+/*
+for(int i=1; i<=n; i++)
+        {
+            if(!is_used[i] && (depth == 0 || i > ans.get(depth-1)))
+            {
+                ans.add(i); // 조합을 담을 리스트에 값 추가
+                is_used[i] = true; // 사용 여부 표시
+                backTracK(depth + 1); // 다음 값 탐색
+                //상태 복원
+                ans.remove(ans.size()-1);
+                is_used[i] = false;
+            }
+        }
+*/

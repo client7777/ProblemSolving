@@ -9,51 +9,48 @@ import java.util.StringTokenizer;
 public class boj_15654
 {
     static int n,m;
-    static int[] arr1;
-    static int[] arr2;
-    static boolean[] visit;
+    static int[] arr,ans;
+    static boolean[] is_used;
     static StringBuilder sb = new StringBuilder();
-
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st= new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        arr1 = new int[n]; // n개의 자연수를 저장할 배열
-        arr2 = new int[m]; // 길이가 m인 수열을 만들 배열
-        visit = new boolean[10001];
+        arr = new int[n];
+        ans = new int[m];
+        is_used = new boolean[100001];
 
         st = new StringTokenizer(br.readLine());
         for(int i=0; i<n; i++)
         {
-            arr1[i] = Integer.parseInt(st.nextToken());
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        Arrays.sort(arr1);
-        dfs(0);
-        System.out.println(sb);
+        Arrays.sort(arr);
+        backTrack(0);
+        System.out.print(sb);
     }
-    static void dfs(int depth)
+    static void backTrack(int depth)
     {
-        //m개의 숫자를 골랐다면 출력
         if(depth == m)
         {
-            for(int val:arr2)
+            for(int val:ans)
             {
-                sb.append(val).append(' ');
+                sb.append(val + " ");
             }
             sb.append('\n');
             return;
         }
         for(int i=0; i<n; i++)
         {
-            if(!visit[arr1[i]])
+            if(!is_used[arr[i]])
             {
-                visit[arr1[i]] = true;
-                arr2[depth] = arr1[i];
-                dfs(depth+1);
-                visit[arr1[i]] = false;
+                ans[depth] = arr[i];
+                is_used[arr[i]] = true;
+                backTrack(depth + 1);
+                is_used[arr[i]] = false;
             }
         }
     }

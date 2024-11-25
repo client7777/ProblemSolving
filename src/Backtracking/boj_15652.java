@@ -17,24 +17,24 @@ public class boj_15652
         m = Integer.parseInt(st.nextToken());
 
         arr = new int[m];
-        func(1,0);
+        backTrack(1,0);
         System.out.print(sb.toString());
     }
-    static void func(int at, int depth)
+    static void backTrack(int at, int depth)
     {
         if(depth == m)
         {
             for(int val:arr)
             {
-                sb.append(val).append(' ');
+                sb.append(val + " ");
             }
-            sb.append("\n");
+            sb.append('\n');
             return;
         }
-        for(int i = at; i<=n; i++)
+        for(int i=at; i<=n; i++)
         {
             arr[depth] = i;
-            func(i,depth+1);
+            backTrack(i, depth+1);
         }
     }
 }
