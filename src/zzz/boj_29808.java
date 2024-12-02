@@ -23,7 +23,7 @@ public class boj_29808
             for(int j=0; j<=200; j++)
             {
                 if(tmp == i * 508 + j * 212 || tmp == i * 508 + j * 305
-                || tmp == i * 108 + j * 212 || tmp == i * 108 + j * 305)
+                        || tmp == i * 108 + j * 212 || tmp == i * 108 + j * 305)
                 {
                     arr.add(new int[]{i,j});
                 }
