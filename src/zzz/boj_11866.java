@@ -26,9 +26,9 @@ public class boj_11866
         sb.append("<");
 
         int idx = 0;
-        while (n > 1)
+        while (list.size() > 1)
         {
-            idx = (idx + (k-1)) % n;
+            idx = (idx + (k-1)) % list.size();
             sb.append(list.remove(idx)).append(", ");
             n--;
         }
