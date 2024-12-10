@@ -1,4 +1,5 @@
 package zzz;
+
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -30,7 +31,6 @@ public class boj_11866
         {
             idx = (idx + (k-1)) % list.size();
             sb.append(list.remove(idx)).append(", ");
-            n--;
         }
         sb.append(list.remove()).append(">");
         System.out.print(sb);
