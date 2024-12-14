@@ -24,7 +24,7 @@ public class boj_14567
 
         inDegree = new int[n+1];
         term = new int[n+1];
-        Arrays.fill(term, 1);
+
         for(int i=0; i<m; i++)
         {
             st = new StringTokenizer(br.readLine());
@@ -34,19 +34,38 @@ public class boj_14567
             graph[a].add(b); // a는 b의 선수과목
             inDegree[b]++;
         }
+
+        topological();
+    }
+    static void topological()
+    {
+        Queue<Integer> q = new LinkedList<>();
         for(int i=1; i<=n; i++)
         {
-            for(int j=0; j<graph[i].size(); j++)
+            if(inDegree[i] == 0)
             {
-                int node = graph[i].get(j);
-                term[node] = Math.max(term[node], term[i] + 1);
+                q.add(i);
+            }
+        }
+
+        while (!q.isEmpty())
+        {
+            int cur = q.poll();
+
+            for(int next:graph[cur])
+            {
+                inDegree[next]--;
+                if(inDegree[next] == 0)
+                {
+                    q.add(next);
+                    term[next] = term[cur] + 1;
+                }
             }
         }
         for(int i=1; i<=n; i++)
         {
-            System.out.print(term[i] + " ");
+            System.out.print((term[i]+1) + " ");
         }
-        System.out.println();
     }
 }
 /*
