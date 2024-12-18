@@ -5,7 +5,6 @@ import java.util.*;
 
 public class boj_1162
 {
-
     static int n,m,k;
     static ArrayList<int[]>[] graph;
     static long[][] dist;
