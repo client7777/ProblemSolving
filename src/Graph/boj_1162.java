@@ -5,6 +5,7 @@ import java.util.*;
 
 public class boj_1162
 {
+
     static int n,m,k;
     static ArrayList<int[]>[] graph;
     static long[][] dist;
@@ -44,9 +45,9 @@ public class boj_1162
     }
     static void dijkstra()
     {
-        dist[k][1] = 0;
+        dist[0][1] = 0;
         PriorityQueue<long[]> pq = new PriorityQueue<>(Comparator.comparingLong(o->o[1]));
-        pq.add(new long[]{1,0,k});
+        pq.add(new long[]{1,0,0});
 
         while (!pq.isEmpty())
         {
@@ -66,18 +67,17 @@ public class boj_1162
             {
                 int nextNode = next[0];
                 long nextDist = next[1];
-                // 도로를 포장하는 경우
+
                 if(dist[curRoad][nextNode] > dist[curRoad][curNode] + nextDist)
                 {
                     dist[curRoad][nextNode] = dist[curRoad][curNode] + nextDist;
                     pq.add(new long[]{nextNode, dist[curRoad][nextNode], curRoad});
                 }
-                if(curRoad >= 1 && dist[curRoad-1][nextNode] > dist[curRoad][curNode])
+                if(curRoad < k && dist[curRoad+1][nextNode] > dist[curRoad][curNode])
                 {
-                    dist[curRoad-1][nextNode] = dist[curRoad][curNode];
-                    pq.add(new long[]{nextNode, dist[curRoad][curNode], curRoad-1});
+                    dist[curRoad+1][nextNode] = dist[curRoad][curNode];
+                    pq.add(new long[]{nextNode, dist[curRoad][curNode], curRoad+1});
                 }
-                // 도로를 포장하지 않는 경우
             }
         }
     }
