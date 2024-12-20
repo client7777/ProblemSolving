@@ -4,7 +4,8 @@ import java.io.*;
 import java.util.*;
 
 public class boj_5719
-{static int n,m,s,d;
+{
+    static int n,m,s,d;
     static ArrayList<int[]>[] graph, rev_graph;
     static int INF = 500 * 10000 + 1;
     static int[] dist;

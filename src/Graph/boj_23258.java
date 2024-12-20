@@ -6,7 +6,6 @@ import java.util.*;
 public class boj_23258
 {
     static int INF = Integer.MAX_VALUE/2;
-    
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -35,7 +34,7 @@ public class boj_23258
                 for (int j=1; j<=n; j++)
                 {
                     //k-1이하의 노드만 거치며 i에서 j로 가는 최단 거리
-                    //k-1이하의 노드만 거치며 i에서 k로 가는 최단 거리 + k-1이하의 노드만 거치며 k에서 j로 가는 최단 거리
+                    //k-1이하의 집들만 거치며 i에서 k로 가는 최단 거리 + k-1이하의 집들만 거치며 k에서 j로 가는 최단 거리
                     dist[i][j][k] = Math.min(dist[i][j][k-1], dist[i][k][k-1] + dist[k][j][k-1]);
                 }
             }

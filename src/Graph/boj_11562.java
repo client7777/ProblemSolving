@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class boj_11562
-{static int n,m;
+{   
+    static int n,m;
     static StringBuilder sb = new StringBuilder();
     static int[][] map;
     static int INF = Integer.MAX_VALUE /2;
