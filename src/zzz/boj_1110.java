@@ -17,7 +17,7 @@ public class boj_1110
 
             n = ((n % 10) * 10 + (n / 10 + n % 10) % 10);
 
-            if(n == next) break;;
+            if(n == next) break;
         }
         System.out.print(cnt);
     }
