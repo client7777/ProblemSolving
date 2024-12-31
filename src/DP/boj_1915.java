@@ -31,7 +31,7 @@ public class boj_1915
         {
             for(int j=1; j<=m; j++)
             {
-                if(map[i][j]== '0') continue;
+                if(map[i][j] == '0') continue;
                 d[i][j] = Math.min(d[i-1][j], Math.min(d[i][j-1], d[i-1][j-1])) + 1;
                 ans = Math.max(ans, d[i][j]);
             }
