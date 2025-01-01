@@ -32,4 +32,3 @@ public class boj_2011
     }
 }
 
-
