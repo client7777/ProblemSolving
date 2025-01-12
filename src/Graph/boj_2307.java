@@ -80,7 +80,7 @@ public class boj_2307
                 {
                     dist[nextNode] = curDist + nextDist;
                     pq.add(new int[]{nextNode, dist[nextNode]});
-                    path[nextNode] = curNode;
+                    path[nextNode] = curNode; // 최단 경로 추적
                 }
             }
         }
