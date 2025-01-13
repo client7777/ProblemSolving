@@ -8,12 +8,6 @@ public class Main
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
         
-        if(n < 3)
-        {
-            System.out.print(-1);
-            return;
-        }
-        
         int[] d = new int[5001];
 
         Arrays.fill(d, 5001);
