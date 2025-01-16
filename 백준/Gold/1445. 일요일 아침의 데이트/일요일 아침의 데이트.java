@@ -8,8 +8,8 @@ public class Main
     static boolean [][] visit;
     static int[] dx = {-1,0,1,0};
     static int[] dy = {0,1,0,-1};
-    public static void main(String[] args) throws NumberFormatException, IOException {
-        // TODO Auto-generated method stub
+    public static void main(String[] args) throws NumberFormatException, IOException
+    {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
@@ -39,9 +39,9 @@ public class Main
                 }
             }
         }
-        bfs();
+        dijkstra();
     }
-    private static void bfs()
+    private static void dijkstra()
     {
         PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> {
             if (o1[2] == o2[2]) return o1[3] - o2[3];  // 쓰레기 칸 수, 인접 쓰레기 칸 수로 우선순위 설정
@@ -52,13 +52,11 @@ public class Main
         while(!pq.isEmpty())
         {
             int[] cur = pq.poll();
+
             int curX = cur[0];
             int curY = cur[1];
             int curCnt = cur[2];
             int curSide = cur[3];
-
-            if(visit[curX][curY]) continue;
-            visit[curX][curY]=true;
 
             for(int dir=0; dir<4; dir++)
             {
@@ -72,13 +70,16 @@ public class Main
                     System.out.print(curCnt + " " + curSide);
                     return;
                 }
+
                 if(map[nX][nY] == 'g')
                 {
                     pq.add(new int[]{nX,nY,curCnt + 1, curSide});
+                    visit[nX][nY] = true;
                 }
                 else
                 {
                     boolean flag=true;
+
                     for(int i=0; i<4; i++)
                     {
                         int nnX = nX + dx[i];
@@ -95,6 +96,8 @@ public class Main
                     }
                     if(flag)
                         pq.add(new int[]{nX,nY,curCnt,curSide});
+
+                    visit[nX][nY] = true;
                 }
             }
         }
