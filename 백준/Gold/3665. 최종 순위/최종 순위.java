@@ -54,14 +54,14 @@ public class Main
 
                 if(adjList[a].contains(b))
                 {
-                    adjList[a].remove((Integer) b);
+                    adjList[a].remove(Integer.valueOf(b));
                     adjList[b].add(a);
                     inDegree[b]--;
                     inDegree[a]++;
                 }
                 else
                 {
-                    adjList[b].remove((Integer) a);
+                    adjList[b].remove(Integer.valueOf(a));
                     adjList[a].add(b);
                     inDegree[a]--;
                     inDegree[b]++;
@@ -91,7 +91,7 @@ public class Main
 
         while (!q.isEmpty())
         {
-            if(q.size() > 1)
+            if(q.size() > 1) // 큐에 2개 이상의 팀이 들어와 있다는 의미는 확실한 순위를 찾을 수 없다는 의미
             {
                 flag = true;
                 break;
@@ -112,6 +112,8 @@ public class Main
         {
             sb.append("?").append(" ");
         }
+        // 사이클이 발생한 경우
+        // 사이클 내의 노드들은 진입차수가 0이 되는 시점이 없어서 결과적으로 result.size()가 전체 노드의 크기보다 작아지는 경우가 발생
         else if(result.size() != team)
         {
             sb.append("IMPOSSIBLE").append(" ");
