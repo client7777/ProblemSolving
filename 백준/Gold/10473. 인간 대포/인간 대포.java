@@ -1,3 +1,4 @@
+// 총 노드의 개수 -> n+2개 : 시작 노드 , 끝 노드, n개의 대포
 import java.io.*;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
@@ -54,7 +55,7 @@ public class Main
     }
     static void dijkstra(int n)
     {
-        PriorityQueue<Edge> pq = new PriorityQueue<>((a,b) -> (int)(a.sec - b.sec));
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
         time[0] = 0;
 
         pq.add(new Edge(0,0,0));
@@ -73,6 +74,8 @@ public class Main
                 int nextNode = next.target;
                 float nextDist = next.dist;
 
+                //대포를 이용(출발점과 도착점에서는 대포를 이용하지 못함
+                //대포와 다음 도착점의 거리가 50보다 작으면 대포를 타고 도착점까지 되돌아간다.
                 if(curNode > 0 && curNode <= n)
                 {
                     if(nextDist >= 50)
@@ -97,6 +100,7 @@ public class Main
                     }
                 }
 
+                //걸어서 이동
                 float nextSec = curSec + (nextDist / 5.0f);
                 if(time[nextNode] > nextSec)
                 {
@@ -110,7 +114,7 @@ public class Main
     {
         return (float)Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y,2));
     }
-    static class Edge
+    static class Edge implements Comparable<Edge>
     {
         int target;
         float dist;
@@ -120,6 +124,11 @@ public class Main
             this.target = target;
             this.dist = dist;
             this.sec = sec;
+        }
+
+        @Override
+        public int compareTo(Edge o) {
+            return Float.compare(this.sec, o.sec);
         }
     }
     static class Vertex
