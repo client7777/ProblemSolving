@@ -1,32 +1,29 @@
 // 총 노드의 개수 -> n+2개 : 시작 노드 , 끝 노드, n개의 대포
 import java.io.*;
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main
 {
-    static final int INF = Integer.MAX_VALUE;
-    static ArrayList<Edge>[] graph = new ArrayList[102];
     static float[] time = new float[102];
+    static ArrayList<Edge>[] graph = new ArrayList[102];
+    static final float INF = Float.MAX_VALUE;
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
-        Vertex[] vertices = new Vertex[102];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        float startX = Float.parseFloat(st.nextToken());
+        float startY = Float.parseFloat(st.nextToken());
 
-        for(int i=0; i<2; i++)
-        {
-            st = new StringTokenizer(br.readLine());
-            float x = Float.parseFloat(st.nextToken());
-            float y = Float.parseFloat(st.nextToken());
-            vertices[i] = new Vertex(x,y,i);
-        }
+        st = new StringTokenizer(br.readLine());
+        float endX = Float.parseFloat(st.nextToken());
+        float endY = Float.parseFloat(st.nextToken());
 
         int n = Integer.parseInt(br.readLine());
 
-        vertices[n+1] = new Vertex(vertices[1].x , vertices[1].y, n+1);
+        Vertex[] vertices = new Vertex[102];
+        vertices[0] = new Vertex(startX, startY, 0);
+        vertices[n+1] = new Vertex(endX, endY, n+1);
 
         for(int i=1; i<=n; i++)
         {
@@ -37,13 +34,17 @@ public class Main
             vertices[i] = new Vertex(x,y,i);
         }
 
+        Arrays.fill(time, INF);
         for(int i=0; i<=n+1; i++)
         {
-            time[i] = INF;
             graph[i] = new ArrayList<>();
+        }
+
+        for(int i=0; i<=n+1; i++)
+        {
             for(int j=0; j<=n+1; j++)
             {
-                if(i==j) continue;
+                if(i == j) continue;
                 float dist = getDist(vertices[i], vertices[j]);
                 graph[i].add(new Edge(j,dist,0));
             }
@@ -51,19 +52,17 @@ public class Main
 
         dijkstra(n);
         System.out.print(time[n+1]);
-
     }
+
     static void dijkstra(int n)
     {
         PriorityQueue<Edge> pq = new PriorityQueue<>();
-        time[0] = 0;
-
         pq.add(new Edge(0,0,0));
+        time[0] = 0;
 
         while (!pq.isEmpty())
         {
             Edge cur = pq.poll();
-
             int curNode = cur.target;
             float curSec = cur.sec;
 
@@ -74,33 +73,18 @@ public class Main
                 int nextNode = next.target;
                 float nextDist = next.dist;
 
-                //대포를 이용(출발점과 도착점에서는 대포를 이용하지 못함
-                //대포와 다음 도착점의 거리가 50보다 작으면 대포를 타고 도착점까지 되돌아간다.
-                if(curNode > 0 && curNode <= n)
+                //현재 노드가 시작노드이거나 마지막 노드라면 대포를 이용할 수 없음
+                if(curNode >= 1 && curNode <=n)
                 {
-                    if(nextDist >= 50)
-                    {
-                        float nextSec = curSec + 2 + (nextDist - 50) / 5.0f;
+                    float nextSec = curSec + 2 + Math.abs(nextDist - 50) / 5.0f;
 
-                        if(time[nextNode] > nextSec)
-                        {
-                            time[nextNode] = nextSec;
-                            pq.add(new Edge(nextNode, 0, nextSec));
-                        }
-                    }
-                    else
+                    if(time[nextNode] > nextSec)
                     {
-                        float nextSec = curSec + 2 + (50 - nextDist) / 5.0f;
-
-                        if(time[nextNode] > nextSec)
-                        {
-                            time[nextNode] = nextSec;
-                            pq.add(new Edge(nextNode, 0, nextSec));
-                        }
+                        time[nextNode] = nextSec;
+                        pq.add(new Edge(nextNode, 0, nextSec));
                     }
                 }
-
-                //걸어서 이동
+                
                 float nextSec = curSec + (nextDist / 5.0f);
                 if(time[nextNode] > nextSec)
                 {
@@ -110,9 +94,10 @@ public class Main
             }
         }
     }
+    //점과 점사이의 직선 거리 공식
     static float getDist(Vertex a, Vertex b)
     {
-        return (float)Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y,2));
+        return (float)Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
     }
     static class Edge implements Comparable<Edge>
     {
@@ -137,8 +122,7 @@ public class Main
         float y;
         int idx;
 
-        public Vertex(float x, float y, int idx)
-        {
+        public Vertex(float x, float y, int idx) {
             this.x = x;
             this.y = y;
             this.idx = idx;
