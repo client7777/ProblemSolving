@@ -69,7 +69,6 @@ public class Main
                 visit[nX][nY] = true;
             }
         }
-
         System.out.print(0);
     }
 }
