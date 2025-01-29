@@ -1,4 +1,3 @@
-//각각의 소에서 다리를 이용하지 않고 다른 소들을 방문할 수 있나.
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
