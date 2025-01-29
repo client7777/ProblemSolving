@@ -1,3 +1,4 @@
+//길을 건너지 않으면 만날 수 없는 소가 몇쌍인지
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -66,7 +67,7 @@ public class Main
                 int endX = cowPos[j].x;
                 int endY = cowPos[j].y;
 
-                if(!bfs(startX, startY, endX, endY)) ans++;
+                if(!bfs(startX, startY, endX, endY)) ans++; // 다리를 건너지 않고 다른 소한테 도착할 수 없을 때 증가
             }
         }
 
