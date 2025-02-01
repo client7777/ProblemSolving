@@ -7,12 +7,13 @@ public class Main
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
         int[] w = new int[n+1];
         int[] v = new int[n+1];
-        int[][] d = new int[n+1][k+1];
+        int[] d = new int[k+1];
 
         for(int i=1; i<=n; i++)
         {
@@ -20,20 +21,15 @@ public class Main
             w[i] = Integer.parseInt(st.nextToken());
             v[i] = Integer.parseInt(st.nextToken());
         }
-        for(int i=1; i<=n; i++)
+
+        for(int i = 1; i <= n; i++)
         {
-            for(int j=1; j<=k; j++)
+            for(int j = k; j >= w[i]; j--)
             {
-                if(w[i] > j)
-                {
-                    d[i][j] = d[i-1][j];
-                }
-                else
-                {
-                    d[i][j] = Math.max(d[i-1][j], d[i-1][j - w[i]] + v[i]);
-                }
+                d[j] = Math.max(d[j], d[j - w[i]] + v[i]);
             }
         }
-        System.out.print(d[n][k]);
+
+        System.out.print(d[k]);
     }
 }
