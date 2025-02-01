@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution 
 {
     public int[] solution(int[] prices)
@@ -14,12 +12,8 @@ class Solution
             
             for(int j=i+1; j<prices.length; j++)
             {
-                if(curPrice <= prices[j]) time++;
-                else
-                {
-                    time++;
-                    break;
-                }
+                time++;
+                if(curPrice > prices[j]) break;
             }
             answer[i] = time;
         }
