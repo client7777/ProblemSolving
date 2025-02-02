@@ -115,5 +115,4 @@ public class Main
             return Integer.compare(this.dist, o.dist);
         }
     }
-
 }
