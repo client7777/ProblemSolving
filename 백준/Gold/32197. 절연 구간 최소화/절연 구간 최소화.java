@@ -42,6 +42,8 @@ public class Main
 
     static void dijkstra()
     {
+        //같은 노드를 방문하더라도 현재 급전 방식(직류/교류)에 따라 비용이 달라질 수 있기 때문에 (노드, 상태)를 함께 고려
+        //상태는 직류, 교류 2가지
         int[][] cost = new int[n+1][2];
         for(int i=1; i<=n; i++)
         {
@@ -49,13 +51,13 @@ public class Main
         }
 
         PriorityQueue<Edge> pq = new PriorityQueue<>();
-
+        //출발점에서 갈 수 있는 모든 간선을 큐에 추가
         for(Edge startNode:graph[a])
         {
             pq.add(new Edge(a, startNode.state, 0));
             cost[a][startNode.state] = 0;
         }
-
+        
         while (!pq.isEmpty())
         {
             Edge cur = pq.poll();
