@@ -45,3 +45,4 @@ public class boj_1010
         System.out.print(sb);
     }
 }
+
