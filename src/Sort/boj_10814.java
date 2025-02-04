@@ -1,4 +1,4 @@
-package zzz;
+package Sort;
 
 import java.io.*;
 import java.util.*;
@@ -21,20 +21,21 @@ public class boj_10814
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
 
-        ArrayList<Person> list = new ArrayList<>();
+        Person[] p = new Person[n];
+
         for(int i=0; i<n; i++)
         {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int age = Integer.parseInt(st.nextToken());
             String name = st.nextToken();
 
-            list.add(new Person(age, name));
+            p[i] = new Person(age, name);
         }
-        list.sort(Comparator.comparingInt(o -> o.age));
 
-        for(Person person:list)
+        Arrays.sort(p, Comparator.comparingInt(o->o.age));
+        for(int i=0; i<n; i++)
         {
-            System.out.println(person.age + " " + person.name);
+            System.out.println(p[i].age + " " + p[i].name);
         }
     }
 }
