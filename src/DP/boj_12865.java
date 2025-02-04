@@ -1,5 +1,5 @@
 package DP;
-
+//평범한 배낭, Knapsack
 import java.io.*;
 import java.util.StringTokenizer;
 
