@@ -11,6 +11,7 @@ public class Main
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int[] arr = new int[6];
+        int[] chess = {1,1,2,2,2,8};
 
         for(int i=0; i<6; i++)
         {
@@ -18,30 +19,9 @@ public class Main
         }
 
         StringBuilder sb = new StringBuilder();
-
         for(int i=0; i<6; i++)
         {
-            if(i == 0)
-            {
-                sb.append(1 - arr[i]).append(" ");
-            }
-            else if(i == 1)
-            {
-                sb.append(1 - arr[i]).append(" ");
-            }
-            else if(i == 2)
-            {
-                sb.append(2 - arr[i]).append(" ");
-            }
-            else if(i == 3)
-            {
-                sb.append(2 - arr[i]).append(" ");
-            }
-            else if(i == 4)
-            {
-                sb.append(2 - arr[i]).append(" ");
-            }
-            else sb.append(8 - arr[i]).append(" ");
+            sb.append(chess[i] - arr[i]).append(" ");
         }
 
         System.out.print(sb);
