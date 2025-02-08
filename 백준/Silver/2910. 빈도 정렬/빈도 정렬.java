@@ -21,10 +21,8 @@ public class Main
 
         List<Integer> arr = new ArrayList<>(map.keySet());
 
-        arr.sort(((o1, o2) -> {
-
-            return Integer.compare(map.get(o2), map.get(o1));
-        }));
+        arr.sort(((o1, o2) ->
+                Integer.compare(map.get(o2), map.get(o1))));
 
         StringBuilder sb = new StringBuilder();
         for(int i:arr)
