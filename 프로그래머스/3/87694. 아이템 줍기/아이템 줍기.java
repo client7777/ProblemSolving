@@ -40,6 +40,7 @@ class Solution
                 int nX = curX + dx[dir];
                 int nY = curY + dy[dir];
 
+                //배열의 범위 밖이거 테두리가 아니라면 이동 불가
                 if (OOB(nX, nY)) continue;
                 if (visit[nX][nY] || map[nX][nY] != 1) continue;
 
