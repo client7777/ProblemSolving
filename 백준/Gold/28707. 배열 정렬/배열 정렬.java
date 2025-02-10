@@ -40,7 +40,7 @@ public class Main
     static int dijkstra(int[] start, int[] target)
     {
         HashMap<String, Integer> visit = new HashMap<>();
-        visit.put(new String(Arrays.toString(start)), 0);
+        visit.put(Arrays.toString(start), 0);
 
         PriorityQueue<Edge> pq = new PriorityQueue<>();
         pq.add(new Edge(start, 0));
