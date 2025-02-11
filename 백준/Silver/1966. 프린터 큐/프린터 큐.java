@@ -1,54 +1,56 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {
-        Scanner sc = new Scanner(System.in);
-        int testCaseCount = sc.nextInt();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        while (testCaseCount-- > 0)
+        int test_case = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        while (test_case-- > 0)
         {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            int m = Integer.parseInt(st.nextToken());
             
-            int N = sc.nextInt();  
-            int M = sc.nextInt();
+            Queue<int[]> q = new LinkedList<>();
+            PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.comparingInt(o->-o)); // 중요도는 숫자가 큰게 큼
 
-            
-            Queue<int[]> queue = new LinkedList<>();
-            PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(Collections.reverseOrder());
-
-            for (int i = 0; i < N; i++) 
+            st = new StringTokenizer(br.readLine());
+            for(int i=0; i<n; i++)
             {
-                int importance = sc.nextInt();
-                queue.add(new int[]{i, importance}); 
-                priorityQueue.add(importance);
+                int num = Integer.parseInt(st.nextToken());
+                q.add(new int[]{i,num});
+                pq.add(num);
             }
 
-            int printOrder = 0;
+            int order = 0;
 
-            while (!queue.isEmpty()) 
+            while (!q.isEmpty())
             {
-                int[] current = queue.poll();
-                int currentDocIndex = current[0];
-                int currentDocImportance = current[1];
-                
-                if (currentDocImportance == priorityQueue.peek()) 
+                int[] cur = q.poll();
+                int curIdx = cur[0];
+                int curImport = cur[1];
+
+                if(curImport == pq.peek())
                 {
-                    printOrder++;
-                    priorityQueue.poll();
-                    
-                    if (currentDocIndex == M) 
+                    order++;
+                    pq.poll();
+
+                    if(curIdx == m)
                     {
-                        System.out.println(printOrder);
+                        sb.append(order).append('\n');
                         break;
                     }
-                } else 
-                {
-                    queue.add(current);
                 }
+                else
+                    q.add(cur);
             }
         }
-
-        sc.close();
+        System.out.print(sb);
     }
 }
