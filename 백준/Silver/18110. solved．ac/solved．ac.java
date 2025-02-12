@@ -21,11 +21,11 @@ public class Main
 
         Arrays.sort(arr);
 
-        int sum = 0;
+        double sum = 0;
         for(int i=exceptionSize; i<n-exceptionSize; i++)
         {
             sum += arr[i];
         }
-        System.out.print(Math.round((float) sum / (n - 2 * exceptionSize)));
+        System.out.print((int)Math.round(sum / (n - 2 * exceptionSize)));
     }
 }
