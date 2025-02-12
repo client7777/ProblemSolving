@@ -13,12 +13,13 @@ public class Main
         char[] ch = str.toCharArray();
 
         long ans = 0;
-
+        long pow = 1;
         for(int i=0; i<n; i++)
         {
-            ans += ((ch[i] - 'a') + 1) * (long)(Math.pow(31, i));
+            ans += ((ch[i] - 'a') + 1) * pow;
+            pow = (pow * 31) % 1234567891;
         }
 
-        System.out.print(ans);
+        System.out.print(ans % 1234567891);
     }
 }
