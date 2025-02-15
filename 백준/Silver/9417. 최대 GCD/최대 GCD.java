@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class Main
@@ -22,9 +21,7 @@ public class Main
             {
                 arr.add(Integer.parseInt(st.nextToken()));
             }
-
-            arr.sort(Comparator.comparingInt(o->o));
-
+            
             int max = Integer.MIN_VALUE;
             for(int i=0; i<arr.size()-1; i++)
             {
