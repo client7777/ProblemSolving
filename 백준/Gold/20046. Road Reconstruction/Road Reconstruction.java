@@ -43,6 +43,7 @@ public class Main
             System.out.print(-1);
             return;
         }
+
         int[][] dist = new int[n][m];
         for(int[] row:dist)
         {
@@ -73,19 +74,7 @@ public class Main
 
                 if(OOB(nX,nY) || map[nX][nY] == -1) continue;
 
-                int nextCost = curCost;
-
-                switch (map[nX][nY])
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        nextCost += 1;
-                        break;
-                    case 2:
-                        nextCost += 2;
-                        break;
-                }
+                int nextCost = curCost + map[nX][nY];
 
                 if(dist[nX][nY] > nextCost)
                 {
@@ -102,3 +91,7 @@ public class Main
         return x < 0 || y < 0 || x >= n || y >= m;
     }
 }
+/*
+시작, 끝점이 -1로 도로 건설이 불가능한 예외 경우이므로 다이크스트라를 수행하지 않고 -1 출력
+시작지점이 0인 경우도 있지만 1,2인 경우 시작지점에서 도로를 건설하는 비용이 발생함
+*/
