@@ -6,6 +6,8 @@ import java.util.*;
 public class Main
 {
     static int n,m;
+    static int a,b,c;
+    static long[] cost;
     static ArrayList<Node>[] graph;
     static long answer = -1;
     public static void main(String[] args) throws IOException
@@ -15,9 +17,9 @@ public class Main
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        int a = Integer.parseInt(st.nextToken());
-        int b = Integer.parseInt(st.nextToken());
-        int c = Integer.parseInt(st.nextToken());
+        a = Integer.parseInt(st.nextToken());
+        b = Integer.parseInt(st.nextToken());
+        c = Integer.parseInt(st.nextToken());
 
         graph = new ArrayList[n+1];
         for(int i=1; i<=n; i++)
@@ -25,6 +27,7 @@ public class Main
             graph[i] = new ArrayList<>();
         }
 
+        long maxCost = 0;
         for(int i=0; i<m; i++)
         {
             st = new StringTokenizer(br.readLine());
@@ -32,18 +35,20 @@ public class Main
             int v = Integer.parseInt(st.nextToken());
             long cost = Integer.parseInt(st.nextToken());
 
+            maxCost = Math.max(maxCost,cost);
+
             graph[u].add(new Node(v,cost));
             graph[v].add(new Node(u,cost));
         }
 
         long left = 1;
-        long right = 1001;
+        long right = maxCost;
 
         while (left <=right)
         {
             long mid = (left + right) / 2;
 
-            if(dijkstra(a,b,mid))
+            if(dijkstra(mid))
             {
                 answer = mid;
                 right = mid -1;
@@ -54,14 +59,14 @@ public class Main
 
         System.out.print(answer);
     }
-    static boolean dijkstra(int start, int end, long max)
+    static boolean dijkstra(long max)
     {
-        long[] cost = new long[n+1];
+        cost = new long[n+1];
         Arrays.fill(cost, Long.MAX_VALUE);
-        cost[start] = 0;
+        cost[a] = 0;
 
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.add(new Node(start, 0));
+        pq.add(new Node(a,0));
 
         while (!pq.isEmpty())
         {
@@ -69,7 +74,7 @@ public class Main
             int curNode = cur.node;
             long curCost = cur.cost;
 
-            if(cost[curNode] > curCost) continue;
+            if(curCost > cost[curNode]) continue;
 
             for(Node next:graph[curNode])
             {
@@ -85,7 +90,7 @@ public class Main
                 }
             }
         }
-        return cost[end] <= max;
+        return cost[b] <= c;
     }
     static class Node implements Comparable<Node>
     {
