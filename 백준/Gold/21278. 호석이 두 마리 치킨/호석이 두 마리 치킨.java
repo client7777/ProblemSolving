@@ -5,13 +5,12 @@ import java.util.StringTokenizer;
 
 public class Main
 {
-    static int n;
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
 
         int[][] map = new int[n+1][n+1];
@@ -58,7 +57,7 @@ public class Main
                 int dist = 0;
                 for(int k=1; k<=n; k++)
                 {
-                    if(i == k || j == k) continue;
+                    if(i == j || j == k) continue;
                     dist += Math.min(map[i][k] , map[j][k]);
                 }
                 if(2 * dist < minDist)
