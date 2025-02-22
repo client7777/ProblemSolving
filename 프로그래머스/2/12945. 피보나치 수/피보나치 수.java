@@ -3,7 +3,7 @@ class Solution
     public int solution(int n)
     {
         //피보나치 수열의 n번째 항
-        int[] d = new int[100001];
+        int[] d = new int[n+1];
         
         d[0] = 0;
         d[1] = 1;
