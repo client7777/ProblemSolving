@@ -4,7 +4,7 @@ class Solution
 {
     public int solution(int n, int[][] edge)
     {
-        ArrayList<int[]>[] graph = new ArrayList[n+1];
+        ArrayList<Integer>[] graph = new ArrayList[n+1];
         for(int i=1; i<=n; i++)
         {
             graph[i] = new ArrayList<>();
@@ -15,53 +15,46 @@ class Solution
             int from = row[0];
             int to = row[1];
 
-            graph[from].add(new int[]{to, 1});
-            graph[to].add(new int[]{from ,1});
+            graph[from].add(to);
+            graph[to].add(from);
         }
-        
+
         int[] dist = solve(n, 1, graph);
-        
+
         int max = Integer.MIN_VALUE;
         for(int i=1; i<=n; i++)
         {
-            max = Math.max(max, dist[i]);    
+            max = Math.max(max, dist[i]);
         }
-        
+
         int cnt = 0;
         for(int i=1; i<=n; i++)
         {
             if(dist[i] == max)  cnt++;
         }
-        
+
         return cnt;
     }
 
-    static int[] solve(int n, int start, ArrayList<int[]>[] graph)
+    static int[] solve(int n, int start, ArrayList<Integer>[] graph)
     {
         int[] dist = new int[n+1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
+        Arrays.fill(dist, -1);
         dist[start] = 0;
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(o->o[1]));
-        pq.add(new int[]{start ,0});
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
 
-        while (!pq.isEmpty())
+        while (!q.isEmpty())
         {
-            int[] cur = pq.poll();
-            int curNode = cur[0];
-            int curDist = cur[1];
+            int curNode = q.poll();
 
-            if(curDist > dist[curNode]) continue;
-
-            for(int[] next:graph[curNode])
+            for(int nextNode:graph[curNode])
             {
-                int nextNode = next[0];
-                int nextDist = next[1] + 1;
-
-                if(dist[nextNode] > curDist + nextDist)
+                if(dist[nextNode] == -1)
                 {
-                    dist[nextNode] = curDist + nextDist;
-                    pq.add(new int[]{nextNode, curDist + nextDist});
+                    dist[nextNode] = dist[curNode] + 1;
+                    q.add(nextNode);
                 }
             }
         }
