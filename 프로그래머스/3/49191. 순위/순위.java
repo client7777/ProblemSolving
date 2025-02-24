@@ -41,6 +41,7 @@ class Solution
             int cnt = 0;
             for(int j=1; j<=n; j++)
             {
+                if(i == j) continue;
                 if(graph[i][j] != 0) cnt++;
             }
             
