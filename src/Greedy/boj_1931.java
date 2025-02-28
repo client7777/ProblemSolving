@@ -1,12 +1,12 @@
 package Greedy;
+
 import java.io.*;
 import java.util.*;
+
 public class boj_1931
 {
-    public static void main(String[] args)throws IOException {
-
-        // 회의가 가장 빨리 끝나는 시간을 골라라
-
+    public static void main(String[] args)throws IOException
+    {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(br.readLine());
@@ -29,7 +29,8 @@ public class boj_1931
 
         //종료시간 오름차순 정렬
         //종료시간이 같다면 시작하는 시간이 빠른 순서로 정렬
-        Arrays.sort(time, new Comparator<int[]>() {
+        Arrays.sort(time, new Comparator<int[]>()
+        {
 
             public int compare(int[] o1, int[] o2)
             {
