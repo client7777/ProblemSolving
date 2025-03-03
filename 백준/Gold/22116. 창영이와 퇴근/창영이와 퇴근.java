@@ -32,7 +32,7 @@ public class Main
 
         dijkstra();
     }
-    
+
     static void dijkstra()
     {
         //현재까지 이동하면서 만난 최대 높이 차이
