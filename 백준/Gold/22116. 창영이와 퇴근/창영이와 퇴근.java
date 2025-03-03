@@ -29,12 +29,13 @@ public class Main
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        
+
         dijkstra();
     }
-
+    
     static void dijkstra()
     {
+        //현재까지 이동하면서 만난 최대 높이 차이
         int[][] dist = new int[n+1][n+1];
         for(int[] row:dist)
         {
