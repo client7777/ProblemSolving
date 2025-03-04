@@ -47,18 +47,17 @@ public class Main
             adjList[to].add(new int[]{from,l});
         }
 
+        int[] dist1 = dijkstra(v, a);
+        int[] dist2 = dijkstra(v, b);
+
         int ans = 0;
 
-        for(int i=0; i<n; i++)
+        for(int start:startPosition)
         {
-            int start = startPosition.get(i);
+            int dist_a = dist1[start] == INF ? -1 : dist1[start];
+            int dist_b = dist2[start] == INF ? -1 : dist2[start];
 
-            int[] d = dijkstra(v,start);
-
-            if(d[a] == INF) d[a] = -1;
-            if(d[b] == INF) d[b] = -1;
-
-            ans += (d[a] + d[b]);
+            ans += (dist_a + dist_b);
         }
 
         System.out.print(ans);
