@@ -6,7 +6,6 @@ import java.util.*;
 public class Main
 {
     static int[] depth;
-    static boolean[] visit;
     static ArrayList<Integer>[] adjList;
     public static void main(String[] args) throws IOException
     {
@@ -34,7 +33,6 @@ public class Main
 
         depth = new int[n+1];
         Arrays.fill(depth, -1);
-        visit = new boolean[n+1];
         bfs(r);
 
         StringBuilder sb = new StringBuilder();
@@ -48,25 +46,30 @@ public class Main
 
     static void bfs(int start)
     {
-        visit[start] = true;
         depth[start] = 0;
-
         Queue<Integer> q = new LinkedList<>();
         q.add(start);
 
+        int level = 1;
+
         while (!q.isEmpty())
         {
-            int cur = q.poll();
-
-            for(int next:adjList[cur])
+            int size = q.size();
+            for(int i=0; i<size; i++)
             {
-                if(!visit[next])
+                int cur = q.poll();
+
+                for(int next:adjList[cur])
                 {
-                    visit[next] = true;
-                    q.add(next);
-                    depth[next] = depth[cur] + 1;
+                    if(depth[next] == -1)
+                    {
+                        depth[next] = level;
+                        q.add(next);
+                    }
                 }
             }
+            
+            level++;
         }
     }
 }
