@@ -44,8 +44,7 @@ public class Main
         visit = new boolean[n+1];
         depth = new int[n+1];
         Arrays.fill(depth, -1);
-
-        depth[r] = 0;
+        
         dfs(r,0);
 
         StringBuilder sb = new StringBuilder();
