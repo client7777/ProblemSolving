@@ -20,8 +20,6 @@ public class Main
 
         for(int i=1; i<=n; i++)
         {
-            prev[i] = i;
-            d[i] = 0;
             graph[i] = new ArrayList<>();
         }
 
@@ -39,26 +37,23 @@ public class Main
 
         topologicalSort();
 
-        ArrayList<Integer> route = new ArrayList<>();
-        route.add(1);
-
-        int cur = prev[1];
-
-        while (cur != 1)
-        {
-            route.add(cur);
-            cur = prev[cur];
-        }
-
-        route.add(1);
-
         StringBuilder sb = new StringBuilder();
         sb.append(d[1]).append('\n');
 
-        Collections.reverse(route);
-        for(int node:route)
+        Stack<Integer> stack = new Stack<>();
+
+        int cur = 1;
+        while (true)
         {
-            sb.append(node).append(" ");
+            stack.add(cur);
+            cur = prev[cur];
+            if(cur == 1) break;
+        }
+        stack.add(1);
+
+        while (!stack.isEmpty())
+        {
+            sb.append(stack.pop()).append(" ");
         }
 
         System.out.print(sb);
@@ -84,11 +79,9 @@ public class Main
                     prev[nextNode] = cur;
                 }
 
-                inDegree[nextNode]--;
-                if(inDegree[nextNode] == 0)
+                if(--inDegree[nextNode] == 0)
                 {
                     if(nextNode == 1) return;
-
                     q.add(nextNode);
                 }
             }
