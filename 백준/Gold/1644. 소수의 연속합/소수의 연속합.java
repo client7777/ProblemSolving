@@ -21,10 +21,7 @@ public class Main
 
         while (true)
         {
-            if(sum >= n)
-            {
-                sum -= primeList.get(left++);
-            }
+            if(sum >= n) sum -= primeList.get(left++);
             else if(right == primeList.size()) break;
             else sum += primeList.get(right++);
 
