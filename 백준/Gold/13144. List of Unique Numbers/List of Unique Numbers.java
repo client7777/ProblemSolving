@@ -3,35 +3,38 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main 
+public class Main
 {
-    public static void main(String[] args) throws IOException 
+    public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
 
         int[] arr = new int[n];
-        boolean[] check = new boolean[100001];
-
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) 
+        for(int i=0; i<n; i++)
         {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        long cnt = 0;
+        int left = 0;
         int right = 0;
+        long cnt = 0;
 
-        for (int start = 0; start < n; start++) 
+        boolean[] check = new boolean[100001];
+        while (true)
         {
-            while (right < n && !check[arr[right]]) 
+            while (right < n && !check[arr[right]])
             {
                 check[arr[right]] = true;
                 right++;
             }
 
-            cnt += (right - start);
-            check[arr[start]] = false;
+            cnt += (right - left);
+            check[arr[left]] = false;
+            left++;
+
+            if(left == n) break;
         }
 
         System.out.print(cnt);
