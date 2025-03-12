@@ -11,7 +11,7 @@ public class Main
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
 
-        long amount = 0;
+        int amount = 0;
 
         int[] arr = new int[n];
 
@@ -25,7 +25,7 @@ public class Main
 
         Arrays.sort(arr);
 
-        long woo = 0;
+        int woo = 0;
         for(int i=0; i<n/2; i++)
         {
             woo += arr[i];
