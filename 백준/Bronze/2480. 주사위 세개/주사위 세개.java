@@ -7,36 +7,30 @@ public class Main
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int[] arr = new int[7];
+
+        HashMap<Integer, Integer> map = new HashMap<>();
         int max = 0;
-        int idx = 0;
-        boolean flag = false;
+        int result = 0;
         for(int i=0; i<3; i++)
         {
             int num = Integer.parseInt(st.nextToken());
-            arr[num]++;
-            if(arr[num] >= 2)
-            {
-                flag = true;
-                idx = num;
-            }
-
+            map.put(num, map.getOrDefault(num,0 ) + 1);
             max = Math.max(max, num);
         }
 
-        if(flag)
+        for(int key:map.keySet())
         {
-            if(arr[idx] == 3)
+            int cnt = map.get(key);
+            if(cnt == 3)
             {
-                System.out.print(10000 + idx * 1000);
+                result = 10000 + key * 1000;
             }
-            else if(arr[idx] == 2)
+            else if(cnt == 2)
             {
-                System.out.print(1000 + idx * 100);
+                result = 1000 + key * 100;
             }
         }
-        else
-            System.out.print(max * 100);
 
+        System.out.print(result == 0 ? max * 100 : result);
     }
 }
