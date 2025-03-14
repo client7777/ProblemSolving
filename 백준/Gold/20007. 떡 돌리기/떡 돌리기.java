@@ -42,27 +42,27 @@ public class Main
         ArrayList<Integer> fullDist = new ArrayList<>();
         for(int val:dist)
         {
-            if(val * 2 > x)
+            if(2  * val > x)
             {
                 System.out.print(-1);
                 return;
             }
-            
+
             fullDist.add(2 * val);
         }
-        
+
         int day = 1;
         int sum = 0;
-        for(int i=0; i<fullDist.size(); i++)
+        for(int val:fullDist)
         {
-            if(sum + fullDist.get(i) <= x)
+            if(sum + val <= x)
             {
-                sum += fullDist.get(i);
+                sum += val;
             }
             else
             {
                 day++;
-                sum = fullDist.get(i);
+                sum = val;
             }
         }
 
