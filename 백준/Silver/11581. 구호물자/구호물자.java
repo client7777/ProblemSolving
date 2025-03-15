@@ -1,49 +1,57 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main
 {
+    static int n;
+    static boolean hasCycle = false;
+    static ArrayList<Integer>[] graph;
+    static int[] visit;
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        n = Integer.parseInt(br.readLine());
 
-        boolean[][] map = new boolean[n+1][n+1];
+        graph = new ArrayList[n+1];
+        for(int i=1; i<=n; i++)
+        {
+            graph[i] = new ArrayList<>();
+        }
+
+        StringTokenizer st;
         for(int i=1; i<=n-1; i++)
         {
             int m = Integer.parseInt(br.readLine());
 
-            StringTokenizer st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine());
             for(int j=0; j<m; j++)
             {
-                int num = Integer.parseInt(st.nextToken());
-
-                map[i][num] = true;
+                graph[i].add(Integer.parseInt(st.nextToken()));
             }
         }
 
-        for(int k=1; k<=n; k++)
+        visit = new int[n+1];
+        dfs(1);
+        System.out.print(hasCycle ? "CYCLE" : "NO CYCLE");
+    }
+
+    static void dfs(int node)
+    {
+        if(visit[node] == 1)
         {
-            for(int i=1; i<=n; i++)
-            {
-                for(int j=1; j<=n; j++)
-                {
-                    if(map[i][k] && map[k][j]) map[i][j] = true;
-                }
-            }
+            hasCycle = true;
+            return;
         }
 
-        String ans = "NO CYCLE";
-        for(int i=1; i<=n; i++)
+        if(visit[node] == 2) return;
+
+        visit[node] = 1;
+
+        for(int next:graph[node])
         {
-            if(map[1][i] && map[i][i])
-            {
-                ans = "CYCLE";
-            }
+            dfs(next);
         }
 
-        System.out.print(ans);
+        visit[node] = 2;
     }
 }
