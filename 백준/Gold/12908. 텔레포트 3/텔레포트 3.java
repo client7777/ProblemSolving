@@ -18,18 +18,16 @@ public class Main
         int endY = Integer.parseInt(st.nextToken());
 
         Node[] nodes = new Node[8];
-        long[][] dist = new long[8][8];
+        nodes[0] = new Node(startX, startY);
+        nodes[7] = new Node(endX, endY);
 
+        long[][] dist = new long[8][8];
         for(int i=0; i<8; i++)
         {
             Arrays.fill(dist[i], Long.MAX_VALUE / 2);
             dist[i][i] = 0;
         }
 
-        nodes[0] = new Node(startX, startY);
-        nodes[7] = new Node(endX, endY);
-
-        //맨해튼 거리
         dist[0][7] = dist[7][0] = Math.abs(endX - startX) + Math.abs(endY - startY);
 
         for(int i=1; i<=6; i+=2)
@@ -37,13 +35,16 @@ public class Main
             st = new StringTokenizer(br.readLine());
             int x1 = Integer.parseInt(st.nextToken());
             int y1 = Integer.parseInt(st.nextToken());
-            nodes[i] = new Node(x1, y1);
+
+            nodes[i] = new Node(x1,y1);
 
             int x2 = Integer.parseInt(st.nextToken());
             int y2 = Integer.parseInt(st.nextToken());
+
             nodes[i+1] = new Node(x2,y2);
 
-            dist[i][i+1] = dist[i+1][i] = Math.min((Math.abs(x2-x1) + Math.abs(y2-y1)), 10);
+            dist[i][i+1] = 10;
+            dist[i+1][i] = 10;
         }
 
         for(int i=0; i<8; i++)
@@ -51,9 +52,10 @@ public class Main
             for(int j=0; j<8; j++)
             {
                 if(i == j) continue;
-                dist[i][j] = Math.min(dist[i][j], (Math.abs(nodes[i].x - nodes[j].x) + Math.abs(nodes[i].y - nodes[j].y)));
+                dist[i][j] = Math.min(dist[i][j], Math.abs(nodes[j].x - nodes[i].x) + Math.abs(nodes[j].y - nodes[i].y));
             }
         }
+
         for(int k=0; k<8; k++)
         {
             for(int i=0; i<8; i++)
@@ -73,7 +75,8 @@ public class Main
         int x;
         int y;
 
-        public Node(int x, int y) {
+        public Node(int x, int y)
+        {
             this.x = x;
             this.y = y;
         }
