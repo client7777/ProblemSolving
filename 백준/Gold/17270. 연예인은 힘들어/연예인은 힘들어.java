@@ -70,11 +70,12 @@ public class Main
             }
         }
 
-        int ans = -1;
         int dist = INF;
+        int ans = -1;
+
         for(int index:candidateNode)
         {
-            if(dist > map[ji][index] || (dist == map[ji][index] && index < ans))
+            if(dist > map[ji][index])
             {
                 ans = index;
                 dist = map[ji][index];
