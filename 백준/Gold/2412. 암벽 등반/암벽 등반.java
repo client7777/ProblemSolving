@@ -55,7 +55,7 @@ public class Main
                 {
                     if(Math.abs(curX - nextX) > 2) continue;
 
-                    String nextKey = nextX + " " + i;
+                    String nextKey = nextX + "," + i;
                     if(visit.contains(nextKey)) continue;
 
                     visit.add(nextKey);
