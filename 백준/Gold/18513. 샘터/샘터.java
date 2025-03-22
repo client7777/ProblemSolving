@@ -13,6 +13,7 @@ public class Main
     static long ans = 0;
     static HashSet<Integer> set = new HashSet<>();
     static Queue<Node> q = new LinkedList<>();
+    static int[] d = {-1,1};
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -31,7 +32,7 @@ public class Main
         bfs();
         System.out.println(ans);
     }
-
+    
     static void bfs()
     {
         while (!q.isEmpty())
@@ -39,8 +40,6 @@ public class Main
             Node cur = q.poll();
             int curNode = cur.node;
             int curDist = cur.dist;
-
-            int[] d = {-1,1};
 
             for(int i=0; i<2; i++)
             {
@@ -58,7 +57,7 @@ public class Main
             }
         }
     }
-
+    
     static boolean OOB(int node)
     {
         return node > 1_000_000_000 || node < -1_000_000_000;
