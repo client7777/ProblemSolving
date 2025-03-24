@@ -4,16 +4,16 @@ import java.util.*;
 public class Main
 {
     static int n,m;
-    static char destination = '1';
     static int startX, startY;
+    static char present = '1';
     static char[][] map;
-    static boolean[][][][] visit;
     static int[] dx = {-1,0,1,0};
     static int[] dy = {0,1,0,-1};
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
@@ -24,6 +24,7 @@ public class Main
             for(int j=0; j<m; j++)
             {
                 map[i][j] = str.charAt(j);
+
                 if(map[i][j] == 'S')
                 {
                     startX = i;
@@ -32,25 +33,24 @@ public class Main
 
                 if(map[i][j] == 'C')
                 {
-                    map[i][j] = destination++;
+                    map[i][j] = present++;
                 }
             }
         }
-
-        visit = new boolean[n][m][3][4];
-
+        
         System.out.print(bfs());
     }
 
     static int bfs()
     {
-        Queue<Node> q = new LinkedList<>();
-        q.add(new Node(startX, startY, 0, 0, -1));
-
-        for(int dir=0; dir<4; dir++)
+        boolean[][][][] visit = new boolean[n][m][1 << 2][4];
+        for(int i=0; i<4; i++)
         {
-            visit[startX][startY][0][dir] = true;
+            visit[startX][startY][0][i] = true;
         }
+
+        Queue<Node> q = new LinkedList<>();
+        q.add(new Node(startX, startY, 0,0,-1));
 
         while (!q.isEmpty())
         {
@@ -61,26 +61,29 @@ public class Main
             int curStatus = cur.status;
             int curDir = cur.dir;
 
-            if (map[curX][curY] == '1' || map[curX][curY] == '2')
-            {
-                curStatus |= map[curX][curY] - '0';
-            }
-
-            if(curStatus == 3) return curDist;
+            if(curStatus == (1 << 2) - 1) return curDist;
 
             for(int dir=0; dir<4; dir++)
             {
-                if(curDir == dir) continue; // 같은 방향으로 연속해서 진행 불가
-                
+                if(curDir == dir) continue;
+
                 int nX = curX + dx[dir];
                 int nY = curY + dy[dir];
+                int nextDist = curDist + 1;
+                int nextStatus = curStatus;
 
                 if(OOB(nX,nY) || visit[nX][nY][curStatus][dir] || map[nX][nY] == '#') continue;
 
-                q.add(new Node(nX,nY, curDist + 1, curStatus, dir));
-                visit[nX][nY][curStatus][dir] = true;
+                if(map[nX][nY] == '1' || map[nX][nY] == '2')
+                {
+                    nextStatus |= (1 << map[nX][nY] - '1');
+                }
+
+                visit[nX][nY][nextStatus][dir] = true;
+                q.add(new Node(nX,nY,nextDist, nextStatus, dir));
             }
         }
+
         return -1;
     }
 
@@ -101,6 +104,7 @@ public class Main
             this.dir = dir;
         }
     }
+
     static boolean OOB(int x,int y)
     {
         return x < 0 || y < 0 || x >= n || y >= m;
