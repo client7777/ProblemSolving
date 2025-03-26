@@ -7,51 +7,82 @@ import java.util.StringTokenizer;
 
 public class Main
 {
-    static int n,k;
+    static int n,k,cnt;
+    static int[] parent;
     static int[][] map;
     static int[] dx = {-1,0,1,0};
     static int[] dy = {0,1,0,-1};
-    static Queue<Node> q = new LinkedList<>();
+    static Queue<Node> q1 = new LinkedList<>();
+    static Queue<Node> q2 = new LinkedList<>();
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
 
+        parent = new int[k+1];
         map = new int[n+1][n+1];
 
-        for(int i=0; i<k; i++)
+        for(int i=1; i<=k; i++)
         {
-            //문명 시작지의 좌표
             st = new StringTokenizer(br.readLine());
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
-            
-            q.add(new Node(x,y));
-            //문명 지역임을 표시
-            map[x][y] = 77; 
+
+            q1.add(new Node(x,y));
+            map[x][y] = i;
+            parent[i] = i;
         }
 
         int day = 0;
+        cnt = k;
+
         while (true)
         {
-            if(count() == 1) break;
-            bfs();
+            merge();
+            if(cnt == 1) break;
+            spread();
             day++;
         }
 
         System.out.print(day);
     }
 
-    static void bfs()
+    static void merge()
     {
-        Queue<Node> nextQ = new LinkedList<>(); // 다음날 문명을 전파할 시작지점
-        
-        while (!q.isEmpty())
+        while (!q1.isEmpty())
         {
-            Node cur = q.poll();
+            Node cur = q1.poll();
+            int curX = cur.x;
+            int curY = cur.y;
+
+            q2.add(cur);
+
+            for(int dir=0; dir<4; dir++)
+            {
+                int nX = curX + dx[dir];
+                int nY = curY + dy[dir];
+
+                if(OOB(nX,nY)) continue;
+
+                if(map[nX][nY] != 0)
+                {
+                    if(find(map[curX][curY]) != find(map[nX][nY]))
+                    {
+                        union(map[curX][curY], map[nX][nY]);
+                        cnt--;
+                    }
+                }
+            }
+        }
+    }
+
+    static void spread()
+    {
+        while (!q2.isEmpty())
+        {
+            Node cur = q2.poll();
             int curX = cur.x;
             int curY = cur.y;
 
@@ -60,54 +91,45 @@ public class Main
                 int nX = curX + dx[dir];
                 int nY = curY + dy[dir];
 
-                if(OOB(nX,nY) || map[nX][nY] == 77) continue; // 범위 밖이거나 이미 문명 지역이면 무시
-                map[nX][nY] = 77; // 문명이 전파되었으므로 문명 지역으로 표시해줌
-                nextQ.add(new Node(nX,nY));
-            }
-        }
+                if(OOB(nX,nY)) continue;
 
-        q = nextQ;
-    }
-
-    //문명이 하나로 연결되었는지 판단하는 메서드
-    static int count()
-    {
-        int returnVal = 0;
-
-        Queue<Node> q = new LinkedList<>();
-        boolean[][] visit = new boolean[n+1][n+1];
-
-        for(int i=1; i<=n; i++)
-        {
-            for(int j=1; j<=n; j++)
-            {
-                if(!visit[i][j] && map[i][j] == 77)
+                if(map[nX][nY] == 0)
                 {
-                    returnVal++;
-                    visit[i][j] = true;
-                    q.add(new Node(i,j));
-                    while (!q.isEmpty())
-                    {
-                        Node cur = q.poll();
-                        int curX = cur.x;
-                        int curY = cur.y;
-
-                        for(int dir=0; dir<4; dir++)
-                        {
-                            int nX = curX + dx[dir];
-                            int nY = curY + dy[dir];
-
-                            if(OOB(nX,nY) || visit[nX][nY] || map[nX][nY] != 77) continue;
-                            q.add(new Node(nX,nY));
-                            visit[nX][nY] = true;
-                        }
-                    }
+                    map[nX][nY] = map[curX][curY];
+                    q1.add(new Node(nX,nY));
+                }
+                else if(find(map[curX][curY]) != find(map[nX][nY]))
+                {
+                    union(map[curX][curY], map[nX][nY]);
+                    cnt--;
                 }
             }
         }
-
-        return returnVal;
     }
+
+    static int find(int x)
+    {
+        if(x == parent[x]) return x;
+
+        return parent[x] = find(parent[x]);
+    }
+
+    static void union(int x,int y)
+    {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if(rootX != rootY)
+        {
+            parent[rootY] = rootX;
+        }
+    }
+
+    static boolean OOB(int x,int y)
+    {
+        return x < 1 || y < 1 || x > n || y > n;
+    }
+
     static class Node
     {
         int x;
@@ -118,9 +140,5 @@ public class Main
             this.x = x;
             this.y = y;
         }
-    }
-    static boolean OOB(int x,int y)
-    {
-        return x < 1 || y < 1 || x > n || y > n;
     }
 }
