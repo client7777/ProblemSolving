@@ -64,11 +64,14 @@ public class Main
                 int nX = curX + dx[dir];
                 int nY = curY + dy[dir];
                 int nextState = curState;
+
                 if(OOB(nX,nY) || visit[nX][nY][curState] || map[nX][nY] == '#') continue;
-                if(map[nX][nY] >= '0' && map[nX][nY] <= '5')
+
+                if(map[nX][nY] >= '0' && map[nX][nY] <= '4')
                 {
                     nextState |= (1 << map[nX][nY] - '0');
                 }
+
                 visit[nX][nY][nextState] = true;
                 dq.add(new Node(nX,nY,curDist + 1, nextState));
             }
