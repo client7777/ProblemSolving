@@ -8,8 +8,8 @@ import java.util.StringTokenizer;
 public class Main
 {
     static int n,k,cnt;
-    static int[] parent;
     static int[][] map;
+    static int[] parent;
     static int[] dx = {-1,0,1,0};
     static int[] dy = {0,1,0,-1};
     static Queue<Node> q1 = new LinkedList<>();
@@ -18,11 +18,12 @@ public class Main
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
 
-        parent = new int[k+1];
         map = new int[n+1][n+1];
+        parent = new int[k+1];
 
         for(int i=1; i<=k; i++)
         {
@@ -31,13 +32,14 @@ public class Main
             int y = Integer.parseInt(st.nextToken());
 
             q1.add(new Node(x,y));
-            map[x][y] = i;
             parent[i] = i;
+            map[x][y] = i;
         }
 
         int day = 0;
         cnt = k;
 
+        //초기상태에서 문명 병합 -> 모든 문명이 하나로 병합되었다면 루프 탈출 아니라면 문명 전파
         while (true)
         {
             merge();
@@ -70,7 +72,7 @@ public class Main
                 {
                     if(find(map[curX][curY]) != find(map[nX][nY]))
                     {
-                        union(map[curX][curY], map[nX][nY]);
+                        union(map[curX][curY],map[nX][nY]);
                         cnt--;
                     }
                 }
@@ -98,11 +100,6 @@ public class Main
                     map[nX][nY] = map[curX][curY];
                     q1.add(new Node(nX,nY));
                 }
-                else if(find(map[curX][curY]) != find(map[nX][nY]))
-                {
-                    union(map[curX][curY], map[nX][nY]);
-                    cnt--;
-                }
             }
         }
     }
@@ -124,8 +121,7 @@ public class Main
             parent[rootY] = rootX;
         }
     }
-
-    static boolean OOB(int x,int y)
+    static boolean OOB(int x, int y)
     {
         return x < 1 || y < 1 || x > n || y > n;
     }
