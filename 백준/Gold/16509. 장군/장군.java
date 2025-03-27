@@ -11,7 +11,7 @@ public class Main
     static int endX, endY;
     static int[] dx = {-1,0,1,0}; 
     static int[] dy = {0,1,0,-1};
-    static int[] cx = {-1,-1,1,1}; 
+    static int[] cx = {-1,-1,1,1};
     static int[] cy = {-1,1,1,-1};
     public static void main(String[] args) throws IOException
     {
