@@ -9,7 +9,7 @@ public class Main
 {
     static int startX, startY;
     static int endX, endY;
-    static int[] dx = {-1,0,1,0}; 
+    static int[] dx = {-1,0,1,0};
     static int[] dy = {0,1,0,-1};
     static int[] cx = {-1,-1,1,1};
     static int[] cy = {-1,1,1,-1};
@@ -76,8 +76,9 @@ public class Main
 
     static boolean OOB(int x,int y)
     {
-        return x < 0 || y < 0 || x > 9 || y > 8;
+        return x < 0 || y < 0 || x >= 10 || y >= 9;
     }
+
     static class Node
     {
         int x;
