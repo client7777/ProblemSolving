@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main
@@ -36,23 +38,31 @@ public class Main
 
         int start = Integer.parseInt(br.readLine());
 
-        visit[start] = true;
-
-        dfs(start);
+        bfs(start);
 
         System.out.print(ans);
     }
 
-    static void dfs(int node)
+    static void bfs(int start)
     {
-        for(int next:graph[node])
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
+        visit[start] = true;
+
+        while (!q.isEmpty())
         {
-            if(!visit[next])
+            int curNode = q.poll();
+
+            for(int next:graph[curNode])
             {
-                visit[next] = true;
-                ans++;
-                dfs(next);
+                if(!visit[next])
+                {
+                    visit[next] = true;
+                    q.add(next);
+                    ans++;
+                }
             }
         }
     }
+
 }
