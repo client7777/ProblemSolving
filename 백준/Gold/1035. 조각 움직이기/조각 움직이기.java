@@ -8,22 +8,24 @@ import java.util.Queue;
 public class Main
 {
     static int answer = Integer.MAX_VALUE;
-    static int[] dx = {-1,0,1,0};
-    static int[] dy = {0,1,0,-1};
     static boolean[][] visit = new boolean[5][5];
     static ArrayList<Pos> position = new ArrayList<>();
+    static int[] dx = {-1,0,1,0};
+    static int[] dy = {0,1,0,-1};
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        char[][] map = new char[5][5];
         for(int i=0; i<5; i++)
         {
             String str = br.readLine();
             for(int j=0; j<5; j++)
             {
-                map[i][j] = str.charAt(j);
-                if(map[i][j] == '*') position.add(new Pos(i,j));
+                if(str.charAt(j) == '*')
+                {
+                    // 조각의 위치를 저장
+                    position.add(new Pos(i,j));
+                }
             }
         }
 
@@ -31,7 +33,7 @@ public class Main
         System.out.print(answer);
     }
 
-    static void backTrack(int depth,int sum)
+    static void backTrack(int depth, int sum)
     {
         if(answer <= sum) return;
 
@@ -50,9 +52,9 @@ public class Main
             for(int j=0; j<5; j++)
             {
                 if(visit[i][j]) continue;
-
-                visit[i][j] = true;
+                //맨해튼 거리
                 int dist = Math.abs(position.get(depth).x - i) + Math.abs(position.get(depth).y - j);
+                visit[i][j] = true;
                 backTrack(depth + 1, sum + dist);
                 visit[i][j] = false;
             }
@@ -61,9 +63,9 @@ public class Main
 
     static boolean bfs()
     {
-        boolean[][] visited = new boolean[5][5];
         int cnt = 0;
-        boolean flag = false;
+        boolean[][] visited = new boolean[5][5];
+        boolean find = false;
 
         Queue<Pos> q = new LinkedList<>();
 
@@ -71,11 +73,11 @@ public class Main
         {
             for(int j=0; j<5; j++)
             {
-                if(visit[i][j] && !flag)
+                if(visit[i][j] && !find)
                 {
                     q.add(new Pos(i,j));
                     visited[i][j] = true;
-                    flag = true;
+                    find = true;
                 }
             }
         }
@@ -106,7 +108,7 @@ public class Main
     {
         return x < 0 || y < 0 || x > 4 || y > 4;
     }
-
+    
     static class Pos
     {
         int x;
