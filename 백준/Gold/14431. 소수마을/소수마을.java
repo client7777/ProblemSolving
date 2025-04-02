@@ -24,8 +24,9 @@ public class Main
 
         n = Integer.parseInt(br.readLine());
 
-        ArrayList<Pos> nodeList = new ArrayList<>();
-        nodeList.add(new Pos(startX, startY));
+        Pos[] pos = new Pos[n+2];
+        pos[0] = new Pos(startX, startY);
+        pos[n+1] = new Pos(endX, endY);
 
         for(int i=1; i<=n; i++)
         {
@@ -33,10 +34,8 @@ public class Main
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
 
-            nodeList.add(new Pos(x,y));
+            pos[i] = new Pos(x,y);
         }
-
-        nodeList.add(new Pos(endX, endY));
 
         graph = new ArrayList[n+2];
         for(int i=0; i<n+2; i++)
@@ -50,12 +49,10 @@ public class Main
         {
             for(int j=i+1; j<n+2; j++)
             {
-                if(i == j) continue;
-
-                int x1 = nodeList.get(i).x;
-                int y1 = nodeList.get(i).y;
-                int x2 = nodeList.get(j).x;
-                int y2 = nodeList.get(j).y;
+                int x1 = pos[i].x;
+                int y1 = pos[i].y;
+                int x2 = pos[j].x;
+                int y2 = pos[j].y;
 
                 int dist = calDist(x1,y1,x2,y2);
 
@@ -91,10 +88,10 @@ public class Main
             {
                 int nextNode = next.node;
                 int nextDist = next.dist;
-                
-                if (dist[nextNode] > curDist + nextDist)
+
+                if(dist[nextNode] > dist[curNode] + nextDist)
                 {
-                    dist[nextNode] = curDist + nextDist;
+                    dist[nextNode] = dist[curNode] + nextDist;
                     pq.add(new Node(nextNode, dist[nextNode]));
                 }
             }
@@ -105,7 +102,7 @@ public class Main
 
     static int calDist(int x1, int y1, int x2 ,int y2)
     {
-        return (int)Math.sqrt((int)Math.pow(x2-x1, 2) + (int)Math.pow(y2 - y1,2));
+        return (int)Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2 - y1,2));
     }
 
     static void checkPrime()
