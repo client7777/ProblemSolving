@@ -74,10 +74,7 @@ public class Main
 
     static boolean check(int l1, int r1, int l2, int r2)
     {
-        if((l1 >= l2 && l1 <= r2) || (r1 >= l2 && r1 <= r2) || (l2 >= l1 && l2 <= r1))
-            return true;
-
-        return false;
+        return (l1 >= l2 && l1 <= r2) || (r1 >= l2 && r1 <= r2) || (l2 >= l1 && l2 <= r1);
     }
 
     static class Node
