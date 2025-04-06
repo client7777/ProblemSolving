@@ -1,23 +1,20 @@
 import java.io.*;
 import java.util.*;
-//n이 충분히 작아서 완탐 + 가지치기 풀이 가능
+
 public class Main
 {
-    static int n,m;
-    static int a,b,c;
-    static int[] cost;
+    static int n;
+    static int startNode, endNode, money;
     static ArrayList<Node>[] graph;
-    static long answer = -1;
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        a = Integer.parseInt(st.nextToken());
-        b = Integer.parseInt(st.nextToken());
-        c = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        startNode = Integer.parseInt(st.nextToken());
+        endNode = Integer.parseInt(st.nextToken());
+        money = Integer.parseInt(st.nextToken());
 
         graph = new ArrayList[n+1];
         for(int i=1; i<=n; i++)
@@ -33,39 +30,39 @@ public class Main
             int v = Integer.parseInt(st.nextToken());
             int cost = Integer.parseInt(st.nextToken());
 
-            maxCost = Math.max(maxCost,cost);
-
+            maxCost = Math.max(maxCost, cost);
             graph[u].add(new Node(v,cost));
             graph[v].add(new Node(u,cost));
         }
 
         int left = 1;
         int right = maxCost;
+        int ans = -1;
 
-        while (left <=right)
+        while (left <= right)
         {
             int mid = (left + right) / 2;
 
             if(dijkstra(mid))
             {
-                answer = mid;
-                right = mid -1;
+                ans = mid;
+                right = mid - 1;
             }
             else
                 left = mid + 1;
         }
 
-        System.out.print(answer);
+        System.out.print(ans);
     }
-    
-    static boolean dijkstra(int max)
+
+    static boolean dijkstra(int mid)
     {
-        cost = new int[n+1];
+        int[] cost = new int[n+1];
         Arrays.fill(cost, Integer.MAX_VALUE);
-        cost[a] = 0;
+        cost[startNode] = 0;
 
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.add(new Node(a,0));
+        pq.add(new Node(startNode, 0));
 
         while (!pq.isEmpty())
         {
@@ -75,22 +72,22 @@ public class Main
 
             if(curCost > cost[curNode]) continue;
 
-            for(Node next:graph[curNode])
+            for(Node next : graph[curNode])
             {
                 int nextNode = next.node;
                 int nextCost = next.cost;
 
-                if(nextCost > max) continue;
+                if(nextCost > mid) continue;
 
-                if(cost[nextNode] > curCost + nextCost)
+                if(cost[nextNode] > nextCost + curCost)
                 {
-                    cost[nextNode] = curCost + nextCost;
+                    cost[nextNode] = nextCost + curCost;
                     pq.add(new Node(nextNode, cost[nextNode]));
                 }
             }
         }
-        
-        return cost[b] <= c;
+
+        return cost[endNode] <= money;
     }
 
     static class Node implements Comparable<Node>
@@ -98,7 +95,7 @@ public class Main
         int node;
         int cost;
 
-        public Node(int node, int cost)
+        public Node(int node, int cost) 
         {
             this.node = node;
             this.cost = cost;
