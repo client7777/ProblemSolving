@@ -1,10 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main
 {
@@ -27,26 +22,26 @@ public class Main
             graph[i] = new ArrayList<>();
         }
 
-        long maxCost = 0;
+        int maxCost = 0;
         for(int i=0; i<m; i++)
         {
             st = new StringTokenizer(br.readLine());
             int u = Integer.parseInt(st.nextToken());
             int v = Integer.parseInt(st.nextToken());
-            long cost = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
 
             maxCost = Math.max(maxCost, cost);
             graph[u].add(new Node(v,cost));
             graph[v].add(new Node(u,cost));
         }
 
-        long left = 0;
-        long right = maxCost;
-        long ans = -1;
+        int left = 1;
+        int right = maxCost;
+        int ans = -1;
 
         while (left <= right)
         {
-            long mid = (left + right) / 2;
+            int mid = (left + right) / 2;
 
             if(dijkstra(mid))
             {
@@ -60,10 +55,10 @@ public class Main
         System.out.print(ans);
     }
 
-    static boolean dijkstra(long mid)
+    static boolean dijkstra(int mid)
     {
-        long[] cost = new long[n+1];
-        Arrays.fill(cost, Long.MAX_VALUE);
+        int[] cost = new int[n+1];
+        Arrays.fill(cost, Integer.MAX_VALUE);
         cost[startNode] = 0;
 
         PriorityQueue<Node> pq = new PriorityQueue<>();
@@ -73,14 +68,14 @@ public class Main
         {
             Node cur = pq.poll();
             int curNode = cur.node;
-            long curCost = cur.cost;
+            int curCost = cur.cost;
 
             if(curCost > cost[curNode]) continue;
 
             for(Node next : graph[curNode])
             {
                 int nextNode = next.node;
-                long nextCost = next.cost;
+                int nextCost = next.cost;
 
                 if(nextCost > mid) continue;
 
@@ -98,9 +93,9 @@ public class Main
     static class Node implements Comparable<Node>
     {
         int node;
-        long cost;
+        int cost;
 
-        public Node(int node, long cost)
+        public Node(int node, int cost) 
         {
             this.node = node;
             this.cost = cost;
@@ -108,7 +103,7 @@ public class Main
 
         @Override
         public int compareTo(Node o) {
-            return Long.compare(this.cost, o.cost);
+            return Integer.compare(this.cost, o.cost);
         }
     }
 }
