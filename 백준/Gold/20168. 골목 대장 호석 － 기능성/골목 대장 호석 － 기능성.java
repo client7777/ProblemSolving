@@ -1,13 +1,11 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
-
+//n이 충분히 작아서 완탐 + 가지치기 풀이 가능
 public class Main
 {
     static int n,m;
     static int a,b,c;
-    static long[] cost;
+    static int[] cost;
     static ArrayList<Node>[] graph;
     static long answer = -1;
     public static void main(String[] args) throws IOException
@@ -27,13 +25,13 @@ public class Main
             graph[i] = new ArrayList<>();
         }
 
-        long maxCost = 0;
+        int maxCost = 0;
         for(int i=0; i<m; i++)
         {
             st = new StringTokenizer(br.readLine());
             int u = Integer.parseInt(st.nextToken());
             int v = Integer.parseInt(st.nextToken());
-            long cost = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
 
             maxCost = Math.max(maxCost,cost);
 
@@ -41,12 +39,12 @@ public class Main
             graph[v].add(new Node(u,cost));
         }
 
-        long left = 1;
-        long right = maxCost;
+        int left = 1;
+        int right = maxCost;
 
         while (left <=right)
         {
-            long mid = (left + right) / 2;
+            int mid = (left + right) / 2;
 
             if(dijkstra(mid))
             {
@@ -59,10 +57,11 @@ public class Main
 
         System.out.print(answer);
     }
-    static boolean dijkstra(long max)
+    
+    static boolean dijkstra(int max)
     {
-        cost = new long[n+1];
-        Arrays.fill(cost, Long.MAX_VALUE);
+        cost = new int[n+1];
+        Arrays.fill(cost, Integer.MAX_VALUE);
         cost[a] = 0;
 
         PriorityQueue<Node> pq = new PriorityQueue<>();
@@ -72,14 +71,14 @@ public class Main
         {
             Node cur = pq.poll();
             int curNode = cur.node;
-            long curCost = cur.cost;
+            int curCost = cur.cost;
 
             if(curCost > cost[curNode]) continue;
 
             for(Node next:graph[curNode])
             {
                 int nextNode = next.node;
-                long nextCost = next.cost;
+                int nextCost = next.cost;
 
                 if(nextCost > max) continue;
 
@@ -90,14 +89,16 @@ public class Main
                 }
             }
         }
+        
         return cost[b] <= c;
     }
+
     static class Node implements Comparable<Node>
     {
         int node;
-        long cost;
+        int cost;
 
-        public Node(int node, long cost)
+        public Node(int node, int cost)
         {
             this.node = node;
             this.cost = cost;
@@ -105,7 +106,7 @@ public class Main
 
         @Override
         public int compareTo(Node o) {
-            return Long.compare(this.cost, o.cost);
+            return Integer.compare(this.cost, o.cost);
         }
     }
 }
