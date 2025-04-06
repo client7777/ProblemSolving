@@ -56,7 +56,7 @@ public class Main
         @Override
         public int compareTo(Node o)
         {
-           return Integer.compare(this.deadLine, o.deadLine);
+            return Integer.compare(this.deadLine, o.deadLine);
         }
     }
 }
