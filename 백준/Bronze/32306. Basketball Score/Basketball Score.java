@@ -12,10 +12,10 @@ public class Main
         String[] strA = br.readLine().split(" ");
         String[] strB = br.readLine().split(" ");
 
-       for(int i=0; i<3; i++)
-       {
+        for(int i=0; i<3; i++)
+        {
            sumA += Integer.parseInt(strA[i]) * (i+1);
-       }
+        }
 
         for(int i=0; i<3; i++)
         {
