@@ -65,7 +65,7 @@ public class Main
             {
                 int nX = (curX + dx[dir] + n) % n;
                 int nY = (curY + dy[dir] + m) % m;
-                
+
                 if(map[nX][nY] == 1 || visit[nX][nY]) continue;
 
                 visit[nX][nY] = true;
