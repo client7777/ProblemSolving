@@ -6,7 +6,8 @@ public class Main
     static int n,m;
     static final int INF = 987654321;
     static int[] companyInfo;
-    static int[][] map, dist;
+    static ArrayList<Node>[] graph;
+    static int[][] dist;
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,9 +16,8 @@ public class Main
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        map = new int[n][n];
-
         companyInfo = new int[n];
+
         for(int i=0; i<n; i++)
         {
             //i번 노드가 어떤 회사의 지하철인지 결정
@@ -26,16 +26,27 @@ public class Main
             companyInfo[i] = company;
         }
 
+        graph = new ArrayList[n];
+        for(int i=0; i<n; i++)
+        {
+            graph[i] = new ArrayList<>();
+        }
+
         for(int i=0; i<n; i++)
         {
             st = new StringTokenizer(br.readLine());
             for(int j=0; j<n; j++)
             {
-                map[i][j] = Integer.parseInt(st.nextToken());
+                int dist = Integer.parseInt(st.nextToken());
+
+                if(dist == 0) continue;
+
+                graph[i].add(new Node(j, dist));
             }
         }
 
         dijkstra();
+
     }
 
     static void dijkstra()
@@ -65,17 +76,14 @@ public class Main
                 System.out.print(curCnt + " " + curDist);
                 return;
             }
-
+            
             if(curDist > dist[curNode][curCnt]) continue;
 
-            for(int i=0; i<n; i++)
+            for(Node next : graph[curNode])
             {
-                //다음 노드와 연결이 되어있지 않다면
-                if(map[curNode][i] == 0) continue;
-
-                int nextNode = i;
-                int nextDist = map[curNode][i];
-                int nextCompany = companyInfo[i];
+                int nextNode = next.node;
+                int nextDist = next.dist;
+                int nextCompany = companyInfo[nextNode];
                 int nextCnt = (curCompany == nextCompany) ? curCnt : curCnt + 1;
 
                 if(nextCnt >= n) continue;
@@ -95,6 +103,12 @@ public class Main
         int dist;
         int company;
         int cnt;
+
+        public Node(int node, int dist)
+        {
+            this.node = node;
+            this.dist = dist;
+        }
 
         public Node(int node, int dist, int company, int cnt)
         {
