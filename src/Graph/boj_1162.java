@@ -72,6 +72,7 @@ public class boj_1162
                     dist[curRoad][nextNode] = dist[curRoad][curNode] + nextDist;
                     pq.add(new long[]{nextNode, dist[curRoad][nextNode], curRoad});
                 }
+
                 if(curRoad < k && dist[curRoad+1][nextNode] > dist[curRoad][curNode])
                 {
                     dist[curRoad+1][nextNode] = dist[curRoad][curNode];
