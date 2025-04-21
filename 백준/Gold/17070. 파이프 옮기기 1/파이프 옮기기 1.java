@@ -1,9 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main
 {
@@ -33,62 +29,63 @@ public class Main
 
     static void bfs()
     {
-        Queue<Position> q = new LinkedList<>();
-        q.add(new Position(0, 1, 1)); // 가로 상태 시작
-
+        Queue<Node> q = new LinkedList<>();
+        //1 -> 가로 2 -> 세로 3 -> 대각
+        q.add(new Node(0,1,1));
+        
         while (!q.isEmpty())
         {
-            Position cur = q.poll();
-            int x = cur.x;
-            int y = cur.y;
-            int dir = cur.state;
-
-            if (x == n - 1 && y == n - 1)
+            Node cur = q.poll();
+            int curX = cur.x;
+            int curY = cur.y;
+            int curDir = cur.dir;
+            
+            if(curX == n-1 && curY == n-1)
             {
                 answer++;
                 continue;
             }
-
-            // 가로 -> 가로
-            if (dir == 1 || dir == 3)
+            
+            //현재 방향이 가로이거나 대각이면 가로로 이동 가능
+            if(curDir == 1 || curDir == 3)
             {
-                if (y + 1 < n && map[x][y + 1] == 0)
+                if(curY + 1 < n && map[curX][curY + 1] == 0)
                 {
-                    q.add(new Position(x, y + 1, 1));
+                    q.add(new Node(curX, curY + 1, 1));
                 }
             }
 
-            // 세로 -> 세로
-            if (dir == 2 || dir == 3)
+            //현재 방향이 세로이거나 대각이면 세로로 이동 가능
+            if(curDir == 2 || curDir == 3)
             {
-                if (x + 1 < n && map[x + 1][y] == 0)
+                if(curX + 1 < n && map[curX + 1][curY] == 0)
                 {
-                    q.add(new Position(x + 1, y, 2));
+                    q.add(new Node(curX + 1, curY, 2));
                 }
             }
 
-            // 대각선 이동 (모든 상태에서 가능)
-            if (x + 1 < n && y + 1 < n &&
-                    map[x][y + 1] == 0 &&
-                    map[x + 1][y] == 0 &&
-                    map[x + 1][y + 1] == 0)
+            //대각으로 이동은 현재 방향에 상관없이 가능
+            if(curX + 1 < n && curY + 1 < n)
             {
-                q.add(new Position(x + 1, y + 1, 3));
+                if(map[curX + 1][curY + 1] == 0 && map[curX + 1][curY] == 0 && map[curX][curY + 1] == 0)
+                {
+                    q.add(new Node(curX + 1, curY + 1, 3));
+                }
             }
         }
     }
 
-    static class Position
+    static class Node
     {
         int x;
         int y;
-        int state;
+        int dir;
 
-        public Position(int x, int y, int state)
+        public Node(int x, int y, int dir)
         {
             this.x = x;
             this.y = y;
-            this.state = state;
+            this.dir = dir;
         }
     }
 }
