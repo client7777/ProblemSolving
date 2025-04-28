@@ -104,5 +104,4 @@ public class Main
             this.move = move;
         }
     }
-
 }
