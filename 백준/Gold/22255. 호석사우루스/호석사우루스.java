@@ -94,8 +94,8 @@ public class Main
                     pq.add(new Node(nX,nY,nStep, cost[nX][nY][nStep]));
                 }
             }
-
         }
+        
         System.out.print(-1);
     }
 
