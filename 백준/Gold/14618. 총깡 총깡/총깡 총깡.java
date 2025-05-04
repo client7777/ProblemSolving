@@ -14,9 +14,6 @@ public class Main
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        typeA = new int[n+1];
-        typeB = new int[n+1];
-
         graph = new ArrayList[n+1];
         for(int i=1; i<=n; i++)
         {
@@ -25,6 +22,9 @@ public class Main
         
         int j = Integer.parseInt(br.readLine());
         int k = Integer.parseInt(br.readLine());
+
+        typeA = new int[k];
+        typeB = new int[k];
 
         //a형 집
         st = new StringTokenizer(br.readLine());
