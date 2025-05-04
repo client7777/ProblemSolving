@@ -1,14 +1,11 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main
-{
+{   
     static int n,m,k;
-    static ArrayList<int[]> edge = new ArrayList<>();
-    static int[] parent;
+    static int[] parent, score;
+    static ArrayList<Node> graph = new ArrayList<>();
     public static void main(String[] args) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,66 +15,95 @@ public class Main
         k = Integer.parseInt(st.nextToken());
 
         parent = new int[n+1];
+        score = new int[k];
 
         for(int i=1; i<=m; i++)
         {
             st = new StringTokenizer(br.readLine());
-            int u = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
-            int w = i;
-            edge.add(new int[]{u,v,w});
+            int from = Integer.parseInt(st.nextToken());
+            int to = Integer.parseInt(st.nextToken());
+            graph.add(new Node(from, to, i));
         }
-        int[] score = new int[k];
-        Collections.sort(edge, Comparator.comparingInt(o->o[2])); // 가중치를 기준으로 오름차순
+
+        Collections.sort(graph, Comparator.comparingInt(o -> o.weight));
+        
         for(int i=0; i<k; i++)
         {
-            setParent(); // 턴이 시작되면 부모 노드 초기화
+            setParent(); // 새로운 턴이 시작되기 전에 루트 노드 재구성
             score[i] = kruskal();
-            edge.remove(0);
+            graph.remove(0); // 해당 턴에서 구한 MST에서 가장 가중치가 작은 간선 하나를 제거
         }
-        for(int val:score)
+
+        StringBuilder sb = new StringBuilder();
+        for(int val : score)
         {
-            System.out.print(val + " ");
+            sb.append(val).append(" ");
         }
+
+        System.out.print(sb);
     }
+
     static int kruskal()
     {
         int used = 0;
-        int tot = 0;
-        for(int[] node:edge)
+        int totalCost = 0;
+
+        for(Node node : graph)
         {
             if(used == n-1) break;
-            int from = node[0];
-            int to = node[1];
-            int cost = node[2];
+
+            int from = node.from;
+            int to = node.to;
+            int weight = node.weight;
+
             if(find(from) != find(to))
             {
-                union(from,to);
+                union(from, to);
                 used++;
-                tot += cost;
+                totalCost += weight;
             }
         }
-        return used == n-1 ? tot : 0;
+
+        return used == n-1 ? totalCost : 0;
     }
+
     static int find(int x)
     {
         if(x == parent[x]) return x;
+
         return parent[x] = find(parent[x]);
     }
+
     static void union(int x,int y)
     {
         int rootX = find(x);
         int rootY = find(y);
+
         if(rootX != rootY)
         {
             parent[rootY] = rootX;
         }
     }
+
     static void setParent()
     {
         for(int i=1; i<=n; i++)
         {
             parent[i] = i;
+        }
+    }
+
+    static class Node
+    {
+        int from;
+        int to;
+        int weight;
+
+        public Node(int from, int to, int weight)
+        {
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
         }
     }
 }
