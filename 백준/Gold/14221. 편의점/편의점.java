@@ -7,20 +7,21 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static final int INF = 987654321;
 	static int n;
 	static int m;
+	static final int INF = 987654321;
 	static ArrayList<Node>[] graph;
-	static ArrayList<Integer> houseCandidate = new ArrayList<>();
-	static ArrayList<Integer> isTarget = new ArrayList<>();
+	static ArrayList<Integer> house = new ArrayList<>();
+	static ArrayList<Integer> conv = new ArrayList<>();
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
 
 		graph = new ArrayList[n+1];
-		for(int i=1; i<=n; i++){
+		for(int i = 1; i <= n; i++){
 			graph[i] = new ArrayList<>();
 		}
 
@@ -39,15 +40,15 @@ public class Main {
 		int q = Integer.parseInt(st.nextToken());
 
 		st = new StringTokenizer(br.readLine());
-		for(int i = 0; i < p; i++){
-			int candidate = Integer.parseInt(st.nextToken());
-			houseCandidate.add(candidate);
+		for(int i = 0 ; i < p; i++){
+			//집의 후보지
+			house.add(Integer.parseInt(st.nextToken()));
 		}
 
 		st = new StringTokenizer(br.readLine());
 		for(int i = 0; i < q; i++){
-			int target = Integer.parseInt(st.nextToken());
-			isTarget.add(target);
+			//편의점의 위치
+			conv.add(Integer.parseInt(st.nextToken()));
 		}
 
 		dijkstra();
@@ -59,34 +60,42 @@ public class Main {
 
 		PriorityQueue<Node> pq = new PriorityQueue<>();
 
-		for(int t : isTarget){
-			dist[t] = 0;
-			pq.add(new Node(t, 0)); // 여러 target에서 출발
+		for(int start : conv){
+			dist[start] = 0;
+			pq.add(new Node(start, 0));
 		}
 
-		while(!pq.isEmpty()) {
+		while (!pq.isEmpty()){
 			Node cur = pq.poll();
-			if (cur.dist > dist[cur.node]) continue;
+			int curNode = cur.node;
+			int curDist = cur.dist;
 
-			for(Node next : graph[cur.node]) {
-				if(dist[next.node] > cur.dist + next.dist){
-					dist[next.node] = cur.dist + next.dist;
-					pq.add(new Node(next.node, dist[next.node]));
+			if(curDist > dist[curNode]){
+				continue;
+			}
+
+			for(Node next : graph[curNode]){
+				int nextNode = next.node;
+				int nextDist = next.dist;
+
+				if(dist[nextNode] > curDist + nextDist){
+					dist[nextNode] = curDist + nextDist;
+					pq.add(new Node(nextNode, dist[nextNode]));
 				}
 			}
 		}
 
-		// houseCandidate 중 가장 가까운 후보 찾기
 		int answer = n+1;
 		int minDist = INF;
-		for(int candidate : houseCandidate){
-			if(dist[candidate] < minDist || (dist[candidate] == minDist && candidate < answer)){
-				minDist = dist[candidate];
+
+		for(int candidate : house){
+			if(dist[candidate] < minDist || dist[candidate] == minDist && candidate < answer){
 				answer = candidate;
+				minDist = dist[candidate];
 			}
 		}
-		
-		System.out.println(answer);
+
+		System.out.print(answer);
 	}
 
 	static class Node implements Comparable<Node>{
