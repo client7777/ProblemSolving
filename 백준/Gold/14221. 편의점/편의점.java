@@ -100,7 +100,7 @@ public class Main {
 
 		@Override
 		public int compareTo(Node o) {
-			return Integer.compare(this.node, o.node);
+			return Integer.compare(this.dist, o.dist);
 		}
 	}
 }
