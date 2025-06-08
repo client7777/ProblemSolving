@@ -23,7 +23,7 @@ public class Main {
 
 		graph = new ArrayList[n+1];
 		for(int i = 1; i <= n; i++){
-			graph[i] = new ArrayList<Node>();
+			graph[i] = new ArrayList<>();
 		}
 
 		while (m -- > 0){
