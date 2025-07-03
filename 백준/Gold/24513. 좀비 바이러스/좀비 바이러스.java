@@ -68,7 +68,7 @@ public class Main {
 			int curY = cur.y;
 			int curTime = cur.time;
 
-			if(map[curX][curY] == 1 | map[curX][curY] == 2){
+			if(map[curX][curY] == 1 || map[curX][curY] == 2){
 				for(int dir=0; dir<4; dir++){
 					int nX = curX + dx[dir];
 					int nY = curY + dy[dir];
