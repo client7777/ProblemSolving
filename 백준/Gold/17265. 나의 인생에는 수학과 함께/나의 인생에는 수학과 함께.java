@@ -43,7 +43,7 @@ public class Main {
 				continue;
 			}
 
-			if(map[nX][nY] - '0' >= 0 && map[nX][nY] - '0' <= 5){
+			if(map[nX][nY] >= '0' && map[nX][nY] <= '5'){
 				// 다음 좌표의 값이 숫자인 경우
 				int nextValue = map[nX][nY] - '0';
 				if(operator == '+'){
