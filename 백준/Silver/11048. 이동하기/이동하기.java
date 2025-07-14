@@ -1,45 +1,65 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[][] d;
+    static int[] dx = {1,0,1};
+    static int[] dy = {0,1,1};
     static int[][] map;
+    static int[][] d;
+    static int n;
+    static int m;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
         d = new int[n][m];
+        for(int i = 0; i < n; i++){
+            Arrays.fill(d[i], -1);
+        }
+
         map = new int[n][m];
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++){
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < m; j++) {
+            for(int j = 0; j < m; j++){
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        d[0][0] = map[0][0];
+        System.out.print(dfs(0,0));
+    }
 
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                if(i + 1 < n){
-                    d[i+1][j] = Math.max(d[i+1][j], d[i][j] + map[i+1][j]);
-
-                }
-
-                if(j + 1 < m){
-                    d[i][j+1] = Math.max(d[i][j+1], d[i][j] + map[i][j+1]);
-                }
-
-                if(i + 1 < n && j + 1 < m){
-                    d[i+1][j+1] = Math.max(d[i+1][j+1], d[i][j] + map[i+1][j+1]);
-                }
-            }
+    static int dfs(int x,int y){
+        if(x == n-1 && y == m-1){
+            return map[x][y];
         }
 
-        System.out.print(d[n-1][m-1]);
+        if(d[x][y] != -1){
+            return d[x][y];
+        }
+
+        int max = 0;
+        for(int dir=0; dir<3; dir++){
+            int nX = x + dx[dir];
+            int nY = y + dy[dir];
+
+            if(OOB(nX,nY)){
+                continue;
+            }
+
+            max = Math.max(max, dfs(nX,nY));
+        }
+
+        d[x][y] = max + map[x][y];
+        return d[x][y];
+    }
+
+    static boolean OOB(int x,int y){
+        return x >= n || y >= m;
     }
 }
