@@ -18,48 +18,22 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        d = new int[n][m];
-        for(int i = 0; i < n; i++){
-            Arrays.fill(d[i], -1);
-        }
+        d = new int[n+1][m+1];
 
-        map = new int[n][m];
-        for(int i = 0; i < n; i++){
+        map = new int[n+1][m+1];
+        for (int i = 1; i <= n; i++) {
             st = new StringTokenizer(br.readLine());
-            for(int j = 0; j < m; j++){
+            for (int j = 1; j <= m; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        System.out.print(dfs(0,0));
-    }
-
-    static int dfs(int x,int y){
-        if(x == n-1 && y == m-1){
-            return map[x][y];
-        }
-
-        if(d[x][y] != -1){
-            return d[x][y];
-        }
-
-        int max = 0;
-        for(int dir=0; dir<3; dir++){
-            int nX = x + dx[dir];
-            int nY = y + dy[dir];
-
-            if(OOB(nX,nY)){
-                continue;
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= m; j++){
+                d[i][j] = Math.max(d[i-1][j], d[i][j-1]) + map[i][j];
             }
-
-            max = Math.max(max, dfs(nX,nY));
         }
 
-        d[x][y] = max + map[x][y];
-        return d[x][y];
-    }
-
-    static boolean OOB(int x,int y){
-        return x >= n || y >= m;
+        System.out.print(d[n][m]);
     }
 }
