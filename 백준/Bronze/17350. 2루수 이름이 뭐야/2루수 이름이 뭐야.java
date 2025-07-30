@@ -9,7 +9,7 @@ public class Main {
 
 		boolean flag = false;
 		for(int i = 0; i < n; i++){
-			String s = br.readLine().toLowerCase();
+			String s = br.readLine();
 
 			if(s.equals("anj")){
 				flag = true;
