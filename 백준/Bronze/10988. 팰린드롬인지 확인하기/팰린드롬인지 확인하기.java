@@ -7,23 +7,14 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str = br.readLine();
-        String[] arr = str.split("");
 
-        boolean flag = false;
+        boolean flag = true;
 
-        String str1 = "";
-        String str2 = "";
-
-        for(int i = 0; i < arr.length; i++){
-            str1 += arr[i];
-        }
-
-        for(int i = arr.length - 1; i >= 0; i--){
-            str2 += arr[i];
-        }
-
-        if(str1.equals(str2)){
-            flag = true;
+        for(int i = 0; i < str.length() / 2; i++) {
+            if(str.charAt(i) != str.charAt(str.length() - 1 -i)) {
+                flag = false;
+                break;
+            }
         }
 
         System.out.print(flag ? 1 : 0);
