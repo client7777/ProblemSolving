@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
@@ -10,6 +11,7 @@ public class Main {
 	static int n;
 	static int m;
 	static ArrayList<Node>[] graph;
+	static ArrayList<Integer> flowList = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,8 +23,6 @@ public class Main {
 		for(int i = 1; i <= n; i++){
 			graph[i] = new ArrayList<>();
 		}
-
-		ArrayList<Integer> flowList = new ArrayList<>();
 
 		for(int i = 0; i < m; i++){
 			st = new StringTokenizer(br.readLine());
@@ -39,37 +39,34 @@ public class Main {
 
 		flowList.sort(Comparator.comparingInt(o->o));
 
-		double max = 0.0;
+		double maxRatio = Double.MIN_VALUE;
 		for(int f : flowList){
-			long minCost = dijkstra(f);
 
+			double minCost = dijkstra(f);
 			if(minCost == -1){
 				continue;
 			}
 
-			double ratio = (double)f / minCost;
-			max = Math.max(max, ratio);
+			double ratio = f / minCost;
+
+			maxRatio = Math.max(maxRatio, ratio);
 		}
 
-		System.out.print((long)(max * 1_000_000));
+		System.out.print((long)(maxRatio * 1_000_000));
 	}
 
-	static long dijkstra(int minFlow){
-		long[] cost = new long[n+1];
-		for(int i = 1; i <= n; i++){
-			cost[i] = Long.MAX_VALUE;
-		}
-
+	static double dijkstra(int minFlow){
+		double[] cost = new double[n+1];
+		Arrays.fill(cost, Double.MAX_VALUE);
 		cost[1] = 0;
 
-		PriorityQueue<Node> pq = new PriorityQueue<>();
-		pq.add(new Node(1, 0, 0));
+		PriorityQueue<Edge> pq = new PriorityQueue<>();
+		pq.add(new Edge(1, 0));
 
-		while (!pq.isEmpty()){
-
-			Node cur = pq.poll();
+		while(!pq.isEmpty()){
+			Edge cur = pq.poll();
 			int curNode = cur.node;
-			long curCost = cur.cost;
+			double curCost = cur.cost;
 
 			if(curCost > cost[curNode]){
 				continue;
@@ -77,37 +74,47 @@ public class Main {
 
 			for(Node next : graph[curNode]){
 				int nextNode = next.node;
-				long nextCost = next.cost;
+				double nextCost = next.cost;
 				int nextFlow = next.flow;
 
-				if(nextFlow < minFlow){
+				if(minFlow > nextFlow){
 					continue;
 				}
 
 				if(cost[nextNode] > curCost + nextCost){
 					cost[nextNode] = curCost + nextCost;
-					pq.add(new Node(nextNode, cost[nextNode], 0));
+					pq.add(new Edge(nextNode, cost[nextNode]));
 				}
 			}
 		}
 
-		return cost[n] == Long.MAX_VALUE ? -1 : cost[n];
+		return cost[n] == Double.MAX_VALUE ? -1 : cost[n];
 	}
 
-	static class Node implements Comparable<Node>{
+	static class Node{
 		int node;
-		long cost;
+		int cost;
 		int flow;
 
-		public Node(int node, long cost, int flow) {
+		public Node(int node, int cost, int flow) {
 			this.node = node;
 			this.cost = cost;
 			this.flow = flow;
 		}
+	}
+
+	static class Edge implements Comparable<Edge>{
+		int node;
+		double cost;
+
+		public Edge(int node, double cost) {
+			this.node = node;
+			this.cost = cost;
+		}
 
 		@Override
-		public int compareTo(Node o) {
-			return Long.compare(this.cost, o.cost);
+		public int compareTo(Edge o) {
+			return Double.compare(this.cost, o.cost);
 		}
 	}
 }
