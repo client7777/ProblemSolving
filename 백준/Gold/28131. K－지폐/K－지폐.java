@@ -27,7 +27,7 @@ public class Main {
 
 		graph = new ArrayList[n + 1];
 		for(int i = 1; i <= n; i++){
-			graph[i] = new ArrayList<Node>();
+			graph[i] = new ArrayList<>();
 		}
 
 		for(int i = 0; i < m; i++){
@@ -66,14 +66,12 @@ public class Main {
 
 			for(Node next : graph[curNode]){
 				int nextNode = next.node;
-				int nextCost = next.cost;
+				int nextCost = next.cost + curCost;
+				int nextDiv = nextCost % k;
 
-				int newCost = curCost + nextCost;
-				int newDiv = (curDiv + nextCost) % k;
-
-				if(cost[nextNode][newDiv] > newCost){
-					cost[nextNode][newDiv] = newCost;
-					pq.add(new Node(nextNode, newCost));
+				if(cost[nextNode][nextDiv] > nextCost){
+					cost[nextNode][nextDiv] = nextCost;
+					pq.add(new Node(nextNode, nextCost));
 				}
 			}
 		}
