@@ -1,15 +1,14 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
 	static int n;
 	static int m;
-	static ArrayList<Integer>[] graph;
-	static boolean[] visited;
-	// static int[] parent;
+	static int[] parent;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,14 +19,9 @@ public class Main {
 			n = Integer.parseInt(br.readLine());
 			m = Integer.parseInt(br.readLine());
 
-			// parent = new int[n+1];
-			// for(int i = 1; i <= n; i++){
-			// 	parent[i] = i;
-			// }
-
-			graph = new ArrayList[n+1];
+			parent = new int[n+1];
 			for(int i = 1; i <= n; i++){
-				graph[i] = new ArrayList<>();
+				parent[i] = i;
 			}
 
 			StringTokenizer st;
@@ -36,49 +30,31 @@ public class Main {
 				int u = Integer.parseInt(st.nextToken());
 				int v = Integer.parseInt(st.nextToken());
 
-				graph[u].add(v);
-				graph[v].add(u);
+				union(u,v);
 			}
 
-			visited = new boolean[n+1];
-			int connected = 0;
-
+			Set<Integer> set = new HashSet<>();
 			for(int i = 1; i <= n; i++){
-				if(visited[i]){
-					continue;
-				}
-
-				connected++;
-				dfs(i);
+				set.add(find(parent[i]));
 			}
 
-			sb.append(m == n-1 &&  connected == 1 ? "tree" : "graph").append("\n");
+			sb.append(m == n-1 && set.size() == 1 ? "tree" : "graph").append('\n');
 		}
 
 		System.out.print(sb);
 	}
 
-	static void dfs(int node){
-		visited[node] = true;
-
-		for(int next : graph[node]){
-			if(!visited[next]){
-				dfs(next);
-			}
-		}
+	static int find(int x){
+		if(x == parent[x]) return x;
+		return parent[x] = find(parent[x]);
 	}
 
-	// static int find(int x){
-	// 	if(x == parent[x]) return x;
-	// 	return parent[x] = find(parent[x]);
-	// }
-	//
-	// static void union(int x,int y){
-	// 	int rootX = find(x);
-	// 	int rootY = find(y);
-	//
-	// 	if(rootX != rootY){
-	// 		parent[rootY] = rootX;
-	// 	}
-	// }
+	static void union(int x,int y){
+		int rootX = find(x);
+		int rootY = find(y);
+
+		if(rootX != rootY){
+			parent[rootY] = rootX;
+		}
+	}
 }
