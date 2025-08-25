@@ -42,9 +42,9 @@ public class Main
     }
     static void dijkstra()
     {
-        dist[0][1] = 0;
+        dist[k][1] = 0;
         PriorityQueue<long[]> pq = new PriorityQueue<>(Comparator.comparingLong(o->o[1]));
-        pq.add(new long[]{1,0,0});
+        pq.add(new long[]{1,0,k});
 
         while (!pq.isEmpty())
         {
@@ -64,25 +64,19 @@ public class Main
             {
                 int nextNode = next[0];
                 long nextDist = next[1];
-
+                // 도로를 포장하는 경우
                 if(dist[curRoad][nextNode] > dist[curRoad][curNode] + nextDist)
                 {
                     dist[curRoad][nextNode] = dist[curRoad][curNode] + nextDist;
                     pq.add(new long[]{nextNode, dist[curRoad][nextNode], curRoad});
                 }
-
-                if(curRoad < k && dist[curRoad+1][nextNode] > dist[curRoad][curNode])
-                {
-                    dist[curRoad+1][nextNode] = dist[curRoad][curNode];
-                    pq.add(new long[]{nextNode, dist[curRoad][curNode], curRoad+1});
+                if(curRoad >= 1 && dist[curRoad-1][nextNode] > dist[curRoad][curNode])
+                {   
+                    dist[curRoad-1][nextNode] = dist[curRoad][curNode];
+                    pq.add(new long[]{nextNode, dist[curRoad][curNode], curRoad-1});
                 }
+                // 도로를 포장하지 않는 경우
             }
         }
     }
 }
-/*
-도시 수가 10,000이고 비용이 백만 이하이기 때문에 int 형 변수 범위를 벗어날 수 있으므로 
-최단 거리 배열은 long 타입으로 선언
-최단 거리 테이블을 포장 횟수에 따라 구분해서 기록
-dist[포장 횟수][노드 번호]
-*/
