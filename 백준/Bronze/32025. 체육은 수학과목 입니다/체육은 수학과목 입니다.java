@@ -9,7 +9,7 @@ public class Main {
 		int h = Integer.parseInt(br.readLine());
 		int w = Integer.parseInt(br.readLine());
 
-		int result = (Math.min(h, w) * 100 / 2);
-		System.out.println(result);
+		double radius = Math.min(h, w) / 2.0;
+		System.out.print((int)(radius * 100));
 	}
 }
