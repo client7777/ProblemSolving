@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -42,7 +40,7 @@ public class Main {
 				for(int j = 0; j < m; j++){
 					if(!visit[i][j] && map[i][j] == '@'){
 						cnt++;
-						bfs(i, j);
+						dfs(i, j);
 					}
 				}
 			}
@@ -52,27 +50,18 @@ public class Main {
 		System.out.print(sb);
 	}
 
-	static void bfs(int x,int y){
-		Queue<Node> q = new LinkedList<>();
-		q.add(new Node(x,y));
+	static void dfs(int x,int y){
 		visit[x][y] = true;
-		
-		while(!q.isEmpty()){
-			Node cur = q.poll();
-			int curX = cur.x;
-			int curY = cur.y;
 
-			for(int dir = 0; dir < 8; dir++){
-				int nX = curX + dx[dir];
-				int nY = curY + dy[dir];
+		for(int dir = 0; dir < 8; dir++){
+			int nX = x + dx[dir];
+			int nY = y + dy[dir];
 
-				if(OOB(nX, nY) || visit[nX][nY] || map[nX][nY] == '*'){
-					continue;
-				}
-
-				visit[nX][nY] = true;
-				q.add(new Node(nX,nY));
+			if(OOB(nX,nY) || visit[nX][nY] || map[nX][nY] == '*'){
+				continue;
 			}
+
+			dfs(nX,nY);
 		}
 	}
 
