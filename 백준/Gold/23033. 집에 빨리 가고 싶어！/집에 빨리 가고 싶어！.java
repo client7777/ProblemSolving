@@ -7,41 +7,41 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
+	static int n;
+	static int m;
 	static ArrayList<Node>[] graph;
-	static long[] time;
-
+	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
-
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		
 		graph = new ArrayList[n+1];
 		for(int i = 1; i <= n; i++){
-			graph[i] = new ArrayList<Node>();
+			graph[i] = new ArrayList<>();
 		}
-
+		
 		for(int i = 0; i < m; i++){
 			st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
 			int t = Integer.parseInt(st.nextToken());
 			int w = Integer.parseInt(st.nextToken());
-
-			graph[a].add(new Node(b,t,w));
+			
+			graph[a].add(new Node(b,t,w)); // 단방향 노선
 		}
 
-		time = new long[n + 1];
-		Arrays.fill(time, Long.MAX_VALUE);
 		dijkstra();
-		System.out.print(time[n]);
 	}
 
 	static void dijkstra(){
+		int[] time = new int[n+1];
+		Arrays.fill(time, Integer.MAX_VALUE);
 		time[1] = 0;
 
 		PriorityQueue<Node> pq = new PriorityQueue<>();
-		pq.add(new Node(1,0,0));
+		pq.add(new Node(1, 0, 0));
 
 		while(!pq.isEmpty()){
 			Node cur = pq.poll();
@@ -54,24 +54,27 @@ public class Main {
 
 			for(Node next : graph[curNode]){
 				int nextNode = next.node;
+				int nextTime = next.time + curTime;
 				int nextWait = next.wait;
 
 				int waitTime = 0;
 
 				if(curTime % nextWait != 0){
-					waitTime = next.wait - (curTime % nextWait);
+					waitTime = nextWait - (curTime % nextWait);
 				}
 
-				int nextTime = curTime + waitTime + next.time;
+				nextTime += waitTime;
 
 				if(time[nextNode] > nextTime){
 					time[nextNode] = nextTime;
-					pq.add(new Node(nextNode, nextTime, next.wait));
+					pq.add(new Node(nextNode, nextTime, nextWait));
 				}
 			}
 		}
-	}
 
+		System.out.print(time[n]);
+	}
+	
 	static class Node implements Comparable<Node>{
 		int node;
 		int time;
