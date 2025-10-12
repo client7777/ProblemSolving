@@ -26,16 +26,16 @@ public class Main {
 				ranks[i] = new Rank(score, interview);
 			}
 
-			Arrays.sort(ranks, Comparator.comparingInt(o -> o.score)); // 지원자들의 등수를 서류 점수로 오름차순 정렬
+			Arrays.sort(ranks, Comparator.comparingInt(o -> o.interview)); // 지원자들의 등수를 서류 점수로 오름차순 정렬
 
 			int answer = 1;
 
-			int min = ranks[0].interview; // 서류 점수가 1등인 지원자의 면접점수
+			int min = ranks[0].score; // 서류 점수가 1등인 지원자의 면접점수
 
 			for(int i = 1; i < ranks.length; i++){
-				if(ranks[i].interview < min){
+				if(ranks[i].score < min){
 					answer++;
-					min = ranks[i].interview;
+					min = ranks[i].score;
 				}
 			}
 			sb.append(answer).append("\n");
