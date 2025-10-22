@@ -28,17 +28,17 @@ public class Main {
 		int cntB = 0;
 
 		for(int i : aSet) {
-			if(bSet.contains(i)) {
+			if(!bSet.contains(i)) {
 				cntA++;
 			}
 		}
 
 		for(int i : bSet) {
-			if(aSet.contains(i)) {
+			if(!aSet.contains(i)) {
 				cntB++;
 			}
 		}
 
-		System.out.print(aSet.size() - cntA + bSet.size() - cntB);
+		System.out.print(cntA + cntB);
 	}
 }
