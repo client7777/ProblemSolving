@@ -6,8 +6,8 @@ public class Main {
 	static int n;
 	static char[][] arr;
 	static int maxLength = Integer.MIN_VALUE;
-	static int[] dx = {-1, 0, 1, 0};
-	static int[] dy = {0, 1, 0, -1};
+	static int[] dx = {0, 1};
+	static int[] dy = {1, 0};
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		n = Integer.parseInt(br.readLine());
@@ -27,7 +27,7 @@ public class Main {
 	}
 	
 	static void swapCandy(int x,int y){
-		for(int dir = 0; dir < 4; dir++) {
+		for(int dir = 0; dir < 2; dir++) {
 			int nX = x + dx[dir];
 			int nY = y + dy[dir];
 			
