@@ -3,27 +3,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int n = Integer.parseInt(br.readLine());
 
-		int ans = 0;
-
-		for(int i = 0; i < n; i++){
-			int num = i;
-			int sum = 0;
-
-			while (num > 0){
-				sum += num % 10;
-				num /= 10;
+		for(int i = 1; i <= n; i++) {
+			for(int j = 1; j <= i; j++) {
+				System.out.print("*");
 			}
-
-			if(sum + i == n){
-				ans = i;
-				break;
-			}
+			System.out.println();
 		}
 
-		System.out.print(ans);
+		for(int i = n-1; i > 0; i--) {
+			for(int j = 1; j <= i; j++) {
+				System.out.print("*");
+			}
+			System.out.println();
+		}
 	}
 }

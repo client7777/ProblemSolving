@@ -1,29 +1,26 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
 
-		int ans = 0;
+		int sum = 0;
 
-		for(int i = 0; i < n; i++){
-			int num = i;
-			int sum = 0;
+		for(int i = 0; i < 5; i++){
+			int score = Integer.parseInt(br.readLine());
 
-			while (num > 0){
-				sum += num % 10;
-				num /= 10;
+			if(score < 40){
+				sum += 40;
 			}
-
-			if(sum + i == n){
-				ans = i;
-				break;
+			else{
+				sum += score;
 			}
 		}
 
-		System.out.print(ans);
+		System.out.print(sum / 5);
 	}
 }

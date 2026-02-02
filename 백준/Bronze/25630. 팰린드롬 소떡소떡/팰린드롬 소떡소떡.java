@@ -6,24 +6,18 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int n = Integer.parseInt(br.readLine());
+		String str = br.readLine();
 
-		int ans = 0;
-
+		int cnt = 0;
 		for(int i = 0; i < n; i++){
-			int num = i;
-			int sum = 0;
-
-			while (num > 0){
-				sum += num % 10;
-				num /= 10;
-			}
-
-			if(sum + i == n){
-				ans = i;
+			if(i >= n /2 ){
 				break;
+			}
+			if(str.charAt(i) != str.charAt(n-i-1)){
+				cnt++;
 			}
 		}
 
-		System.out.print(ans);
+		System.out.println(cnt);
 	}
 }
