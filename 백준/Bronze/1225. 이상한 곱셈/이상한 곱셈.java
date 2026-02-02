@@ -7,13 +7,13 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		String[] a = st.nextToken().split("");
-		String[] b = st.nextToken().split("");
+		char[] arr1 = st.nextToken().toCharArray();
+		char[] arr2 = st.nextToken().toCharArray();
 
 		long sum = 0;
-		for(int i = 0; i < a.length; i++){
-			for(int j = 0; j < b.length; j++){
-				sum += (long)Integer.parseInt(a[i]) * Integer.parseInt(b[j]);
+		for(char c : arr1){
+			for(char c2 : arr2){
+				sum += (long)(c - '0') * (c2 - '0');
 			}
 		}
 
