@@ -3,50 +3,43 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main
-{
-    public static void main(String[] args) throws IOException
-    {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+public class Main {
+	static int answer = Integer.MAX_VALUE;
+	static String[] map;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
 
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
+		map = new String[n];
+		for (int i = 0; i < n; i++) {
+			map[i] = br.readLine();
+		}
 
-        String[] board = new String[n];
+		for(int i = 0; i <= n-8; i++){
+			for(int j = 0; j <= m-8; j++){
+				answer = Math.min(answer, paintMap(i, j));
+			}
+		}
 
-        for(int i=0; i<n; i++) board[i] = br.readLine();
+		System.out.print(answer);
+	}
 
-        int ans = Integer.MAX_VALUE;
-        for(int i=0; i<=n-8; i++)
-        {
-            for(int j=0; j<=m-8; j++)
-            {
-                int res = solve(i,j,board);
+	static int paintMap(int x, int y){
+		String[] origin = {"WBWBWBWB", "BWBWBWBW"};
+		int white = 0;
+		for(int i = 0; i < 8; i++){
+			int row = x + i;
+			for(int j =0; j < 8; j++){
+				int cal = y + j;
 
-                ans = Math.min(ans, res);
-            }
-        }
+				if(map[row].charAt(cal) != origin[i % 2].charAt(j)){
+					white++;
+				}
+			}
+		}
 
-        System.out.print(ans);
-    }
-
-    static int solve(int row, int cal, String[] board)
-    {
-        String[] origin = {"WBWBWBWB", "BWBWBWBW"};
-        int white = 0;
-
-        for(int i=0; i<8; i++)
-        {
-            int x = row + i;
-            for(int j=0; j<8; j++)
-            {
-                int y = cal + j;
-
-                if(board[x].charAt(y) != origin[x % 2].charAt(j)) white++;
-            }
-        }
-        
-        return Math.min(white, 64 - white);
-    }
+		return Math.min(white, 64 - white);
+	}
 }
