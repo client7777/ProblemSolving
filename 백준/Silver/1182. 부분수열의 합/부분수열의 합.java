@@ -1,42 +1,44 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
 	static int n;
 	static int s;
-	static int answer;
-	static ArrayList<Integer> list;
+	static int[] arr;
+	static int ans = 0;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		n = Integer.parseInt(st.nextToken());
 		s = Integer.parseInt(st.nextToken());
+		arr = new int[n];
 
 		st = new StringTokenizer(br.readLine());
-		list = new ArrayList<>();
-		for (int i = 0; i < n; i++) {
-			list.add(Integer.parseInt(st.nextToken()));
+		for(int i = 0; i < n; i++){
+			arr[i] = Integer.parseInt(st.nextToken());
 		}
 
 		dfs(0, 0);
-		if(s == 0) answer--;
-		System.out.print(answer);
+		if(s == 0){
+			// s가 0인 경우 부분수열의 크기가 0인 부분수열이 존재할 수도 있다.
+			ans--;
+		}
+		
+		System.out.print(ans);
 	}
 
 	static void dfs(int depth, int sum){
 		if(depth == n){
-			
 			if(sum == s){
-				answer++;
+				ans++;
 			}
-			
+
 			return;
 		}
-		
-		dfs(depth + 1, sum);
-		dfs(depth + 1, sum + list.get(depth));
+
+		dfs(depth + 1, sum); // 원소를 포함시키지 않음
+		dfs(depth + 1, sum + arr[depth]); // 원소를 포함시킴
 	}
 }
