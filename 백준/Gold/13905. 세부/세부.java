@@ -5,7 +5,6 @@ public class Main
 {
     static int n,m;
     static int startNode, endNode;
-    static int INF = 1_000_000;
     static int[] parent;
     static ArrayList<int[]> edge = new ArrayList<>();
     public static void main(String[] args) throws IOException
@@ -33,7 +32,8 @@ public class Main
             edge.add(new int[]{u,v,w});
             edge.add(new int[]{v,u,w});
         }
-        Collections.sort(edge, (o1,o2) -> {
+        Collections.sort(edge, (o1,o2) ->
+        {
             return o2[2] - o1[2]; // 무게를 기준으로 내림차순
         });
         System.out.print(kruskal());
@@ -45,6 +45,7 @@ public class Main
            int from = node[0];
            int to = node[1];
            int weight = node[2];
+
            if(find(from) != find(to))
            {
                union(from, to);
