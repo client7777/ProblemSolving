@@ -5,6 +5,7 @@ public class Main
 {
     static int n,m;
     static int startNode, endNode;
+    static int min = 1_000_000;
     static int[] parent;
     static ArrayList<int[]> edge = new ArrayList<>();
     public static void main(String[] args) throws IOException
@@ -45,13 +46,13 @@ public class Main
            int from = node[0];
            int to = node[1];
            int weight = node[2];
-
+           min = Math.min(min, weight);
            if(find(from) != find(to))
            {
                union(from, to);
                if(find(startNode) == find(endNode))
                {
-                   return weight;
+                   return min;
                }
            }
        }
