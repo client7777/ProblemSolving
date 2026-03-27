@@ -1,13 +1,14 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 	static int answer = 0;
-	static boolean[] map;
+	static HashSet<Integer> ban = new HashSet<>();
 	static int n;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,10 +16,8 @@ public class Main {
 		n = Integer.parseInt(st.nextToken());
 		int m = Integer.parseInt(st.nextToken());
 		
-		map = new boolean[n + 1];
 		for(int i = 0; i < m; i++) {
-			int ban = Integer.parseInt(br.readLine());
-			map[ban] = true;
+			ban.add(Integer.parseInt(br.readLine()));
 		}
 
 		bfs();
@@ -52,7 +51,7 @@ public class Main {
 				if(OOB(nextPos)) {
 					continue;
 				}
-				if(map[nextPos]) {
+				if(ban.contains(nextPos)) {
 					continue;
 				}
 				if(visited[nextPos][nextJump]) {
@@ -67,7 +66,7 @@ public class Main {
 		answer = -1; // 못 가는 경우
 	}
 
-	static boolean OOB(int pos){
+	static boolean OOB(int pos) {
 		return pos < 1 || pos > n;
 	}
 
